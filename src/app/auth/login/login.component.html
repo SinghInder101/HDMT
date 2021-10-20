@@ -1,4 +1,7 @@
+<app-loader *ngIf="isLoading"></app-loader>
+<div *ngIf="!isLoading" >
 <div class="sidenav">
+
     <div class="login-main-text">
         <img src="https://www.watchguardservices.co.uk/images/logo/watchguard-logo-shard.png">
        <h2>WatchGuard Technologies<br></h2>
@@ -7,10 +10,10 @@
     </div>
  </div>
  <div class="main">
-    <div class="col-md-6  ">
+    <div class="col-md-10 ">
        <div class="login-form ">
           <form [formGroup]= "loginForm" (ngSubmit) ="onSubmit()" >
-            <img  class="wglogo" src="https://www.watchguardservices.co.uk/images/logo/watchguard-logo-shard.png">
+            <h2>Login:</h2>
              <div class="form-group ">
                 <label>Email Address</label>
                 <input 
@@ -43,3 +46,4 @@
        </div>
     </div>
  </div>
+</div>

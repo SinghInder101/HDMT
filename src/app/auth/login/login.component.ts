@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {FormGroup,FormControl} from '@angular/forms'
 import { Validators } from '@angular/forms';
+import { authService } from 'src/app/Services/auth.service';
+import {Router} from '@angular/router'
 
 @Component({
   selector: 'app-login',
@@ -8,9 +10,15 @@ import { Validators } from '@angular/forms';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  isLoading: boolean 
+
+ errorMessage: string;
 
 loginForm!: FormGroup;
-  constructor() { }
+  constructor(private authService: authService, private router: Router) { 
+    this.errorMessage='';
+    this.isLoading = false;
+  }
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -29,7 +37,38 @@ loginForm!: FormGroup;
     });
   }
   onSubmit(){
-    console.log(this.loginForm)
+    this.isLoading = true;
+    let email = this.loginForm.get('username')?.value;
+    let password = this.loginForm.get('password')?.value;
+    // console.log(email);
+    // console.log(password);
+    this.authService.setEmail = email;
+    this.authService.setPassword = password;
+    console.log(this.authService.email)
+    
+    this.authService.login().subscribe
+    (data => {
+      console.log(data);
+
+     if(data.success == false){
+       
+       console.log('Invalid Email or Password')
+       this.errorMessage = data.errorMessage;
+     }
+
+     else{
+       localStorage.setItem('token' , data.token);
+       console.log(localStorage.getItem('token'));
+       this.router.navigate(['/home'])
+     }
+     this.isLoading= false;
+  }
+ 
+
+  );
+
+
+  
   }
   
 

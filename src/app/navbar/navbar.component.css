@@ -1,0 +1,14 @@
+nav{
+
+    position: fixed;
+    height:8%;
+    width:100%;
+    z-index: 100;
+}
+.active{
+    border-bottom: 2px solid white;
+}
+.nav-link{
+    font-size: 20px;
+    font-weight:600;
+}
