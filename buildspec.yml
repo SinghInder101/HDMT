@@ -12,6 +12,6 @@ phases:
     commands:
       - ng build --prod
 artifacts:
-  base-directory: dist/HDMT
+  base-directory: dist/hiring-drive-management-tool
   files:
     - '**/*'
