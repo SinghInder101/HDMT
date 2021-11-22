@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { listPanelist } from 'src/Interfaces/listPanelist.interface';
 import { managePanelistService } from '../Services/managePanelist.service';
 import { Pipe, PipeTransform } from '@angular/core';
+import driveEvents from 'src/Interfaces/driveEvents.interface';
+import { listAdminsAndUsers } from 'src/Interfaces/listAdminsAndUsers.interface';
+import {FormGroup,FormControl, Validators} from '@angular/forms'
 
 @Component({
   selector: 'app-manage-panelist',
@@ -12,34 +15,71 @@ export class ManagePanelistComponent implements OnInit {
 
 
   panelistData!: listPanelist[]
+  driveEvents!: driveEvents[]
+  listAdminsAndUsers!: listAdminsAndUsers[]
+  index: number = 0;
+  display: boolean = false;
+
+  emailAndPhoneForm!:FormGroup;
 
 
 
   constructor(private managePanelistService:managePanelistService) {
 
-    // person_name:string
-    // drive_id:string
-    // email: string
-    // availability:Array<object>
+   
 
     this.panelistData =[{
       person_name:"",
       drive_id:"",
       email:"",
+      phone_number:"",
       availability: [
-        {
-          'xys':'ss'
-        }
-      ]
+        
+          '0'
+        
+       
+      ],
+     
     }
 
+
+   ]
+
+   this.driveEvents = [
+     {
+       name: "",
+       date: "",
+       time:"",
+       day:""
+     }
+   ]
+   
+   this.listAdminsAndUsers = [
+     {
+       name: "",
+       phone_number:"",
+       role: "",
+       email:""
+     }
 
    ]
 
   }
 
   ngOnInit(): void {
-    console.log('hi')
+
+    this.emailAndPhoneForm = new FormGroup ({
+      'email' : new FormControl(null ,[
+        Validators.required,
+        Validators.pattern(
+          '[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}')
+      ]),
+      'phone_number' : new FormControl(null , [
+        Validators.required,
+        Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")
+      ])
+    })
+  
 
     this.managePanelistService.listPanelist().subscribe(
       data => {
@@ -47,14 +87,82 @@ export class ManagePanelistComponent implements OnInit {
 
         }
         else {
+          console.log(data);
           this.panelistData = data.data;
           console.log(this.panelistData)
         }
       }
     )
 
+    this.managePanelistService.listDriveDates().subscribe(
+      data => {
+        if(data.success == false){
+
+        }
+        else{
+         this.driveEvents = data.data
+        }
+      }
+    )
 
 
+
+
+  }
+
+  listAdminsAndUsersFunction(){
+  
+    this.managePanelistService.listAdminsAndUsers().subscribe(data => {
+      if(data.success == false){
+
+      }
+      else{
+        this.listAdminsAndUsers = data.data;
+      }
+      
+    })
+  }
+
+  selectPanelist(event: Event){
+
+    console.log((event.target as HTMLInputElement).value)
+
+    this.index = Number((event.target as HTMLInputElement).value);
+    this.display = true;
+
+    this.emailAndPhoneForm.get('email')?.setValue(this.listAdminsAndUsers[this.index].email);
+    this.emailAndPhoneForm.get('phone_number')?.setValue(this.listAdminsAndUsers[this.index].phone_number)
+
+
+    
+
+
+
+
+  }
+
+  savePanelist(){
+
+    this.managePanelistService.savePanelist(
+      this.emailAndPhoneForm.get('email')?.value,
+      this.emailAndPhoneForm.get('phone_number')?.value,
+      this.listAdminsAndUsers[this.index].name
+    ).subscribe(
+      data => {
+        if(data.success == false){
+          console.log(data);
+          this.index = 0;
+          this.display = false;
+
+        }
+        else{
+          console.log(data);
+          this.index = 0;
+          this.display = false;
+          this.ngOnInit();
+        }
+      }
+    )
 
   }
 

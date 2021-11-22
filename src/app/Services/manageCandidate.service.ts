@@ -46,7 +46,7 @@ uploadCandidates () {
     return this.http.post<any>(this.uploadCandidateAPI,formData,
         { 
         headers: new HttpHeaders({ 'Content-Type':'multipart/form-data',
-    'Authorization': "Bearer "+ localStorage.getItem("token")})
+    'Authorization':  localStorage.getItem("token")!})
    
         })
 

@@ -35,122 +35,37 @@
     <div class = "col-md-6 d-flex justify-content-center">
 
         
-        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" >Select / Add Panelist</button>  
+        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" (click) = "listAdminsAndUsersFunction()" >Select / Add Panelist</button>  
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                  <h5 class="modal-title" id="exampleModalLabel">Panelist</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <label>Select Interview Round</label>
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>DAY 1 PPT</option>
-                        <option value="1">DAY 2</option>
-                        <option value="2">DAY 3</option>
-                       
+                   
+                    
+                     
+                     
+                      <label>Select Panelist: </label>
+                      <select class="form-select " (change) = "selectPanelist($event)"  aria-label="Default select example">
+                        <option selected>Select a Panelist</option>
+                        <option *ngFor="let listAdminsAndUser of listAdminsAndUsers; let i = index" [value]="i">{{listAdminsAndUser.name}} </option>
                       </select>
-                      <label>Panel Title</label>
-                      <input type="text" class="form-control">
-                 
-                      <label>Panel Description</label>
-                      <input type="textarea" class="form-control" row="3"> 
-                      <label>Select Candidate </label>
-                      <select class="form-select myDropDown"  multiple aria-label="Default select example">
-                        <option selected>Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                      </select>
-                      <label>Select Panelist </label>
-                      <select class="form-select myDropDown"  multiple aria-label="Default select example">
-                        <option selected>Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                      </select>
-                      <label>Select Coordinator </label>
-                      <select class="form-select myDropDown"  multiple aria-label="Default select example">
-                        <option selected>Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                        <option value="1">Ramesh</option>
-                        <option value="2">Ramesh</option>
-                      </select>
-                      
+                      <form [formGroup] = "emailAndPhoneForm">
+                      <span *ngIf="display">
+                      <label> Email:</label>
+                      <input class="form-control" formControlName="email">
+
+                      <label>Phone Number:</label>
+                      <input class="form-control" formControlName="phone_number">
+                    </span>
+                  </form>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save changes</button>
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)= "savePanelist()">Save changes</button>
                 </div>
               </div>
             </div>
@@ -169,10 +84,9 @@
           <th scope="col" class="text-center"> Name</th>
           <th scope="col" class="text-center">Phone Number</th>
           <th scope="col" class="text-center">Email</th>
-          <th scope="col" class="text-center">Availability</th>
-          <th scope="col" class="text-center"></th>
-          <th scope="col" class="text-center"></th>
-          <th scope="col" class="text-center"></th>
+          <th scope="col" class="text-center" *ngFor="let driveEvent of driveEvents; let i = index">Availability</th>
+        
+          
           
 
           
@@ -183,18 +97,28 @@
           <th scope="row"></th>
           <td></td>
           <td></td>
-          <td>13-10-2020</td>
-          <td>13-10-2020</td>
-          <td>13-10-2020</td>
-          <td>13-10-2020</td>
+          <td *ngFor="let driveEvent of driveEvents">{{driveEvent.date}}</td>
+         
          
         </tr>
         <tr *ngFor=" let panelist of panelistData ">
            
             <th scope="row">  {{panelist.person_name}}</th>
-            <td>9999999999</td>
+            <td>{{panelist.phone_number}}</td>
             <td>{{panelist.email}}</td>
-            <td *ngFor = "let date of panelist.availability | keyvalue">{{date.value}}</td>
+            <td *ngFor="let driveEvent of driveEvents; index as i ">
+              <span *ngIf="panelist.availability[i] !='Select'">{{panelist.availability[i]}}</span>
+            
+              <select class="form-select form-select" *ngIf="panelist.availability[i] == 'Select'" aria-label=".form-select-lg example">
+                <option >Select Availability</option>
+                <option value="1">Yes</option>
+                <option value="2">No </option>
+          
+              </select>
+              
+
+            </td>
+            
            
            
           </tr>

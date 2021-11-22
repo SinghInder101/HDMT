@@ -22,8 +22,10 @@ page_limit!:string
 
     listPanelist(){
 
+        this.drive_id = localStorage.getItem('drive_id')!;
+
         const params = new HttpParams()
-        .set("drive_id", this.drive_id)
+        .set("drive_id","98ded190-eaf2-4cf2-be36-30ea00ce189c")//Change
         .set("page_no","1")
         .set("page_limit","10")
 
@@ -36,5 +38,61 @@ page_limit!:string
 
     }
 
+    listDriveDates(){
+
+        this.drive_id = localStorage.getItem('drive_id')!;
+
+        const params = new HttpParams()
+        .set("drive_id", "98ded190-eaf2-4cf2-be36-30ea00ce189c");//Change
+
+        return this.http.get<any>("https://vrikog3ugf.execute-api.ap-south-1.amazonaws.com/dev/get_drive_events",{
+            headers: new HttpHeaders({'Content-Type': 'application/json',
+            'Authorization': "Bearer "+ localStorage.getItem("token")}),
+            params
+        });
+
+    }
+
+    listAdminsAndUsers(){
+
+        this.drive_id = localStorage.getItem('drive_id')!;
+
+        const params = new HttpParams()
+        .set("drive_id", "98ded190-eaf2-4cf2-be36-30ea00ce189c");//Change
+
+        return this.http.get<any>("https://vppizzkib1.execute-api.ap-south-1.amazonaws.com/dev/list_admins_and_users",{
+            headers: new HttpHeaders({'Content-Type': 'application/json',
+            'Authorization': "Bearer "+ localStorage.getItem("token")}),
+            params
+        });
+
+    }
+    
+    savePanelist(email:string, phone_number:string,name:string){
+
+        var headers_object = new HttpHeaders(
+            {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer "+ localStorage.getItem("token")
+            });
+        
+        const body = {
+            drive_id : "98ded190-eaf2-4cf2-be36-30ea00ce189c",
+            email: email,
+            phone_number:phone_number,
+            person_name: name
+
+
+        }
+        console.log(body);
+
+        const httpOptions = {
+            headers: headers_object
+        }
+        
+        return this.http.post<any>("https://vrikog3ugf.execute-api.ap-south-1.amazonaws.com/dev/add_panelist",body, httpOptions)
+
+
+    }
 
 }
