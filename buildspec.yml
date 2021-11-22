@@ -12,6 +12,6 @@ phases:
     commands:
       - ng build --prod
 artifacts:
-  base-directory: dist/WSRT
+  base-directory: dist/HDMT
   files:
     - '**/*'
