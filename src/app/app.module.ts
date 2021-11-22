@@ -10,7 +10,12 @@ import {HttpClientModule} from '@angular/common/http';
 import { LoaderComponent } from './loader/loader.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { SidebarComponent } from './sidebar/sidebar.component'
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { CreateHiringDriveComponent } from './homepage/create-hiring-drive/create-hiring-drive.component';
+import { HiringDriveInformationComponent } from './hiring-drive-information/hiring-drive-information.component';
+import { EditHiringDriveComponent } from './edit-hiring-drive/edit-hiring-drive.component';
+import { ManageCandidateComponent } from './manage-candidate/manage-candidate.component';
+import { ManagePanelistComponent } from './manage-panelist/manage-panelist.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,7 +24,12 @@ import { SidebarComponent } from './sidebar/sidebar.component'
     LoaderComponent,
     HomepageComponent,
     NavbarComponent,
-    SidebarComponent
+    SidebarComponent,
+    CreateHiringDriveComponent,
+    HiringDriveInformationComponent,
+    EditHiringDriveComponent,
+    ManageCandidateComponent,
+    ManagePanelistComponent
   ],
   imports: [
     BrowserModule,

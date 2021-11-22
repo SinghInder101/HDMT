@@ -7,7 +7,7 @@ export class authService{
     private password: string;
 
     constructor(private http:HttpClient){
-        this.loginAPI = 'https://19lc6rnazk.execute-api.ap-south-1.amazonaws.com/dev/login'
+        this.loginAPI = 'https://vppizzkib1.execute-api.ap-south-1.amazonaws.com/dev/hdmt-user-login'
         this.email = '';
         this.password = '';
     }

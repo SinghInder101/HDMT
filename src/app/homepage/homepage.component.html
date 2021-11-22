@@ -5,9 +5,9 @@
     <div class="row pt-2">
         <div class="col-xs-8 mt-4 ">
             <div class="input-group mt-5">
-                <input type="text" class="form-control " placeholder="Please Enter your search term here" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                <input type="text" class="form-control " id="search" (keyup) ="valueChange($event)" placeholder="Please Enter your search term here" aria-label="Recipient's username" aria-describedby="basic-addon2">
                 <div class="input-group-append">
-                  <button class="btn btn-outline-secondary" type="button" >Search</button>
+                  <button class="btn btn-outline-secondary" type="button" (click) = "search()" >Search</button>
                 </div>
               </div>
         </div>
@@ -15,13 +15,13 @@
 </div>
 <div class="row d-flex justify-content-end pt-3">
     <div class="col-xs-4 pagination d-flex justify-content-end pt-3">
-        <button class="btn btn-primary" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <button class="btn btn-primary" type="button" class="btn btn-danger" routerLink = "/create_hiring_drive" >
              Create Hiring Drive</button>
     </div>
 </div>
 <div class="row pt-3">
     <div class="col-xs-12">
-    <table class="table">
+    <table class="table table-striped">
         <thead>
           <tr>
             <th scope="col">Hiring Drive Title</th>
@@ -31,100 +31,34 @@
             <th scope="col">Action</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody *ngFor = "let drive of drives; let i = index">
           <tr>
-            <th scope="row">UPES - 2021</th>
-            <td>14th August 2021 - Pre Placement Talk
-                <br>
-                15th August 2021 - Round 1 Interview'
+            <th scope="row">{{drive.drive_title}}</th>
+            <td>
+
+             <span *ngFor = "let event of drive.events; let j = index">{{event.date}} <br> </span> 
+                
 
             </td>
-            <td>Arsh Arafaat <br>
-            Awanti Singh</td>
-            <td>Robert Downey Jr <br>
-                +91 999999999</td>
-                <td>
-                    <a class="link">Edit</a>
-                    <a class="link"> Manage</a>
-                    <a class="link"> Copy</a>
-                </td>
-          </tr>
-          <tr>
-            <th scope="row">Chitkara University - 2021</th>
-            <td>14th August 2021 - Pre Placement Talk
-                <br>
-                15th August 2021 - Round 1 Interview's</td>
-            <td>Arsh Arafaat <br>
-                Awanti Singh</td>
-            <td>Robert Downey Jr <br>
-            +91 999999999</td>
-            <td>
-                <a class="link">Edit</a>
-                <a class="link"> Manage</a>
-                <a class="link"> Copy</a>
-            </td>
             
-          </tr>
-          <tr>
-            <th scope="row">Chandigarh Group Of Colleges -2021</th>
-            <td>14th August 2021 - Pre Placement Talk
+            <td>
+              <span *ngFor = "let driveAdmins of drive.drive_admins">
+                {{driveAdmins}} <br>
+              </span>
+          </td>
+            <td>
+              <span *ngFor = "let contactPersons of drive.contact_person">
+                {{contactPersons.name}} +91 {{contactPersons.phone_number}}
                 <br>
-                15th August 2021 - Round 1 Interview's</td>
-            <td>Arsh Arafaat <br>
-                Awanti Singh</td>
-            <td>Robert Downey Jr <br>
-                +91 999999999</td>
+              </span>
+            </td>
                 <td>
-                    <a class="link">Edit</a>
-                    <a class="link"> Manage</a>
+                    <a class="link" (click)="editHiringDrive(drive.drive_id)">Edit</a>
+                    <a class="link" (click) = "manageHiringDrive(drive.drive_id)"> Manage</a>
                     <a class="link"> Copy</a>
                 </td>
           </tr>
-          <tr>
-            <th scope="row">Chandigarh University - 2021</th>
-            <td>14th August 2021 - Pre Placement Talk
-                <br>
-                15th August 2021 - Round 1 Interview's</td>
-            <td>Arsh Arafaat <br>
-                Awanti Singh</td>
-            <td>Robert Downey Jr <br>
-                +91 999999999</td>
-                <td>
-                    <a class="link">Edit</a>
-                    <a class="link"> Manage</a>
-                    <a class="link"> Copy</a>
-                </td>
-          </tr>
-          <tr>
-            <th scope="row">Manipal Insititute Of Technology - 2021</th>
-            <td>14th August 2021 - Pre Placement Talk
-                <br>
-                15th August 2021 - Round 1 Interview's</td>
-            <td>Arsh Arafaat <br>
-                Awanti Singh</td>
-            <td>Robert Downey Jr <br>
-                +91 999999999</td>
-                <td>
-                    <a class="link"> Edit</a>
-                    <a class="link"> Manage</a>
-                    <a class="link"> Copy</a>
-                </td>
-          </tr>
-          <tr>
-            <th scope="row">Thapar University - 2021</th>
-            <td>14th August 2021 - Pre Placement Talk
-                <br>
-                15th August 2021 - Round 1 Interview's</td>
-            <td>Arsh Arafaat <br>
-                Awanti Singh</td>
-            <td>Robert Downey Jr <br>
-                +91 999999999</td>
-                <td>
-                    <a class="link">Edit</a>
-                    <a class="link"> Manage</a>
-                    <a class="link"> Copy</a>
-                </td>
-          </tr>
+         
         </tbody>
       </table>
     </div>
@@ -145,44 +79,7 @@
     <!-- Button trigger modal -->
 
   <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
-    <div class="modal-dialog" style="max-width: 90%;" >
-      <div class="modal-content" >
-        <div class="modal-header" >
-          <h5 class="modal-title" id="exampleModalLabel">Create Hiring Drive</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form class="row">
-              <div class="col-md-6">
-                  <label for="HiringDriveName">Drive Name</label>
-                  <input type="email" class="form-control">
-              </div>
-              <div class="col-md-6">
-                <label for="inputPassword2" class="">Password</label>
-                <input type="password" class="form-control" id="inputPassword2" placeholder="Password">
-              </div>
-              <div class="col-md-6">
-                <label for="inputPassword2" class="">Password</label>
-                <input type="password" class="form-control" id="inputPassword2" placeholder="Password">
-              </div>
-              <div class="col-md-6">
-                <label for="inputPassword2" class="">Password</label>
-                <input type="password" class="form-control" id="inputPassword2" placeholder="Password">
-              </div>
-              <div class="col-md-6">
-                <label for="inputPassword2" class="">Password</label>
-                <input type="password" class="form-control" id="inputPassword2" placeholder="Password">
-              </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>
+  
 </div>
 </div>
 </div>

@@ -1,0 +1,110 @@
+<app-navbar></app-navbar>
+
+<div class="container pt-5">
+  <form class="pt-5" [formGroup] = "hiringDriveDetails">
+ 
+    <h1>Create Hiring Drive:</h1>
+      <div class="form-group row ">
+     
+         
+          <div class="col-md-4">
+              <label class="col-form-label">Hiring Drive Name</label>
+              <input class="form-control " formControlName="hiringDriveName" >
+              <!-- <small>Please Enter correct password</small> -->
+          </div>
+          </div>
+          <div class="form-group row">
+          <div class="col-md-4">
+            <label class="col-form-label">Description</label>
+            <textarea class="form-control" formControlName="hiringDriveDescription" ></textarea>
+            <!-- <small>Please Enter correct password</small> -->
+        </div>
+        <div class="form-group row mb-4">
+
+          <div class="col-md-8 mt-4">
+            <p>Select Drive Admin:</p>
+          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+  <label class="form-check-label " for="flexCheckDefault"> &nbsp; Arsh Arafaat &nbsp;</label>
+  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+  <label class="form-check-label " for="flexCheckDefault"> &nbsp; Awanti Singh &nbsp; </label>
+  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+  <label class="form-check-label " for="flexCheckDefault"> &nbsp; Virendra Sharma &nbsp;</label>
+       </div>
+        </div>
+
+
+        <form [formGroup]="contactPerson">
+        <fieldset class="the-fieldset mb-5">
+          <legend class="the-legend">Contact Person:</legend>
+          <div class="form-group row" formArrayName="data" *ngFor="let contactDetails of getContactControls(); let i = index">
+            <div [formGroupName] = "i" class="row">
+ 
+          <div class="col-md-4">
+            <label class="col-form-label">Enter Name:</label>
+            <input class="form-control " formControlName="name">
+          </div>
+          <div class="col-md-4">
+            <label class="col-form-label">Phone Number:</label>
+            <input class="form-control " formControlName="phone_number">
+          </div>
+
+          <div class="col-md-4">
+            <label class="col-form-label">Enter Email:</label>
+            <input class="form-control " formControlName="email">
+          </div>
+
+        </div>
+      </div>
+     
+        <div class="row d-flex justify-content-end">
+          <div class="col-md-4 d-flex justify-content-end mt-3">
+            <button class="btn btn-danger" (click)="addContactPerson()">Add Contact Person</button>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+      
+      <form [formGroup] = "hiringDriveDates">
+      <fieldset class="the-fieldset">
+        <legend class="the-legend">Hiring Drive Dates:</legend>
+        
+      <div class="form-group row mt-3" formArrayName="data" *ngFor= "let dateData of getControls(); let i = index">
+        <div [formGroupName]="i" class="row">
+        <div class="col-md-4" >
+          <label class="col-form-label">Enter Event Name:</label>
+          <input class="form-control " formControlName= "name">
+          <small *ngIf="(!hiringDriveDates?.get('data'))
+          "></small>
+        </div>
+        <div class="col-md-2">
+          <label class="col-form-label">Select day</label>
+          <input class="form-control "  value="DAY 1"   formControlName= "day">
+        </div>
+
+        <div class="col-md-3">
+          <label class="col-form-label">Select DATE:</label>
+          <input class="form-control " TYPE="date"  formControlName= "date">
+        </div>
+        <div class="col-md-2">
+          <label class="col-form-label">Enter Start Time</label>
+          <input class="form-control " TYPE="time"  formControlName= "time"> 
+        </div>
+        
+      </div>
+      </div>
+    
+      <div class="row d-flex justify-content-end">
+        <div class="col-md-4 d-flex justify-content-end mt-3">
+          <button class="btn btn-danger" (click) = "addDate()">Add Another Date</button>
+          <div>&nbsp;</div>
+    
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+          
+      </div>
+  </form>
+  <button class="btn btn-danger mt-3" (click) = "saveHiringDrive()">Save Hiring Drive</button>
+</div>

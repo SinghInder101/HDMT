@@ -37,6 +37,8 @@ loginForm!: FormGroup;
     });
   }
   onSubmit(){
+    console.log(this.loginForm);
+    console.log('hemlo')
     this.isLoading = true;
     let email = this.loginForm.get('username')?.value;
     let password = this.loginForm.get('password')?.value;
@@ -44,7 +46,7 @@ loginForm!: FormGroup;
     // console.log(password);
     this.authService.setEmail = email;
     this.authService.setPassword = password;
-    console.log(this.authService.email)
+    // console.log(this.authService.email)//
     
     this.authService.login().subscribe
     (data => {
