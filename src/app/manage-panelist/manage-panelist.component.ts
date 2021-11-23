@@ -166,4 +166,75 @@ export class ManagePanelistComponent implements OnInit {
 
   }
 
+  abc(event: Event){
+    console.log(this.driveEvents)
+    console.log((event.target as HTMLInputElement).value);
+
+    var index = ((event.target as HTMLInputElement).value).slice(1,((event.target as HTMLInputElement).value).length)
+    var b = ((event.target as HTMLInputElement).id).slice(10, ((event.target as HTMLInputElement).id).length);
+    console.log(b);
+    var a = {
+
+      'drive_id': localStorage.getItem('drive_id'),
+      'email' : b,
+      'availability' :Array<Object>()
+
+    }
+    
+    console.log(this.panelistData);
+
+    for(var i = 0 ; i< this.driveEvents.length ; i++){
+      var x = this.driveEvents[i].date;
+      var y = 'Select'
+
+      if(this.panelistData[Number(index)].availability[i] == 'Yes')
+      {
+        y='Yes'
+
+      }
+      if(this.panelistData[Number(index)].availability[i] == 'No')
+      {
+        y='No'
+
+      }
+      if(x == ((event.target as HTMLInputElement).id).slice(0, 10)){
+
+        if(((event.target as HTMLInputElement).value).slice(0,1) == '1'){
+        
+          y='Yes'
+
+
+        }
+        else{
+          y = 'No'
+        }
+
+
+       
+      }
+      a.availability.push(
+      {
+       [x]:y
+      }
+      )
+
+
+
+     
+    }
+    this.managePanelistService.editPanelistStatus(a).subscribe(
+      data => {
+        if(data.success == false){
+          console.log(data);
+
+        }
+        else{
+          console.log(data);
+          this.ngOnInit();
+        }
+      }
+    )
+    
+  }
+
 }

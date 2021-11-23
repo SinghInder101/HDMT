@@ -95,4 +95,24 @@ page_limit!:string
 
     }
 
+    editPanelistStatus(body:any){
+        console.log(body);
+
+        var headers_object = new HttpHeaders(
+            {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer "+ localStorage.getItem("token")
+            });
+        
+        
+
+        const httpOptions = {
+            headers: headers_object
+        }
+        
+        return this.http.put<any>("https://vrikog3ugf.execute-api.ap-south-1.amazonaws.com/dev/edit_panelist",body, httpOptions)
+
+
+    }
+
 }

@@ -101,7 +101,7 @@
          
          
         </tr>
-        <tr *ngFor=" let panelist of panelistData ">
+        <tr *ngFor=" let panelist of panelistData; let j = index">
            
             <th scope="row">  {{panelist.person_name}}</th>
             <td>{{panelist.phone_number}}</td>
@@ -109,10 +109,10 @@
             <td *ngFor="let driveEvent of driveEvents; index as i ">
               <span *ngIf="panelist.availability[i] !='Select'">{{panelist.availability[i]}}</span>
             
-              <select class="form-select form-select" *ngIf="panelist.availability[i] == 'Select'" aria-label=".form-select-lg example">
+              <select class="form-select"  [id]="driveEvent.date+panelist.email" *ngIf="panelist.availability[i] == 'Select'" (change)="abc($event)" aria-label=".form-select-lg example">
                 <option >Select Availability</option>
-                <option value="1">Yes</option>
-                <option value="2">No </option>
+                <option [value]="1+''+j" [class] = "driveEvent.date">Yes</option>
+                <option [value]="2+''+j">No </option>
           
               </select>
               
@@ -122,51 +122,7 @@
            
            
           </tr>
-          <!-- <tr >
-            <th scope="row"> Ramesh Kumar</th>
-            <td>9999999999</td>
-            <td>rameshkumar@watchguard.com</td>
-            <td>YES</td>
-            <td>YES</td>
-            <td>NO</td>
-            <td>YES</td>
-           
-          </tr>
-          <tr >
-            <th scope="row"> Ramesh Kumar</th>
-            <td>9999999999</td>
-            <td>rameshkumar@watchguard.com</td>
-            <td>
-                <select class="form-select" aria-label="Default select example">
-                <option selected>Availability</option>
-                <option value="1">Yes</option>
-                <option value="2">No</option>
-               
-              </select>
-            </td>
-            <td> <select class="form-select" aria-label="Default select example">
-                <option selected>Availability</option>
-                <option value="1">Yes</option>
-                <option value="2">No</option>
-               
-              </select></td>
-            <td> <select class="form-select" aria-label="Default select example">
-                <option selected>Availability</option>
-                <option value="1">Yes</option>
-                <option value="2">No</option>
-               
-              </select>
-            </td>
-            <td> 
-                <select class="form-select" aria-label="Default select example">
-                <option selected>Availability</option>
-                <option value="1">Yes</option>
-                <option value="2">No</option>
-               
-              </select>
-            </td>
-           
-          </tr> -->
+         
        
       </tbody>
     </table>
