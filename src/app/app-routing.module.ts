@@ -6,8 +6,10 @@ import { EditHiringDriveComponent } from './edit-hiring-drive/edit-hiring-drive.
 import { HiringDriveInformationComponent } from './hiring-drive-information/hiring-drive-information.component';
 import { CreateHiringDriveComponent } from './homepage/create-hiring-drive/create-hiring-drive.component';
 import { HomepageComponent } from './homepage/homepage.component';
+
 import { ManageCandidateComponent } from './manage-candidate/manage-candidate.component';
 import { ManagePanelistComponent } from './manage-panelist/manage-panelist.component';
+import { PanelistManagementComponent } from './panelist-management/panelist-management.component';
 
 const routes: Routes = [
   {path:'',component:LoginComponent},
@@ -16,7 +18,9 @@ const routes: Routes = [
   {path:'hiring_drive_information',component:HiringDriveInformationComponent},
   {path:'edit_hiring_drive', component:EditHiringDriveComponent},
   {path:'manage_candidates' , component:ManageCandidateComponent},
-  {path:'manage_panelist' , component:ManagePanelistComponent}
+  {path:'manage_panelist' , component:ManagePanelistComponent},
+  {path:'panelist_management', component:PanelistManagementComponent}
+
 ]
 
  

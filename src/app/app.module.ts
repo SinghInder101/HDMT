@@ -15,7 +15,11 @@ import { CreateHiringDriveComponent } from './homepage/create-hiring-drive/creat
 import { HiringDriveInformationComponent } from './hiring-drive-information/hiring-drive-information.component';
 import { EditHiringDriveComponent } from './edit-hiring-drive/edit-hiring-drive.component';
 import { ManageCandidateComponent } from './manage-candidate/manage-candidate.component';
-import { ManagePanelistComponent } from './manage-panelist/manage-panelist.component'
+import { ManagePanelistComponent } from './manage-panelist/manage-panelist.component';
+import { PanelistManagementComponent } from './panelist-management/panelist-management.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +33,10 @@ import { ManagePanelistComponent } from './manage-panelist/manage-panelist.compo
     HiringDriveInformationComponent,
     EditHiringDriveComponent,
     ManageCandidateComponent,
-    ManagePanelistComponent
+    ManagePanelistComponent,
+    PanelistManagementComponent,
+
+    
   ],
   imports: [
     BrowserModule,
@@ -37,6 +44,7 @@ import { ManagePanelistComponent } from './manage-panelist/manage-panelist.compo
     ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule,
+    NgbModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
