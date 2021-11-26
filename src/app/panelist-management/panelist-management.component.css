@@ -202,3 +202,6 @@ a {
   background-color: transparent;
   text-decoration: none;
 }
+.td{
+  max-width: 50px !important;
+}

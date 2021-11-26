@@ -31,8 +31,9 @@
          
           </select>
     </div>
-    <div class="col-sm-2">
-        <button class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#exampleModal" >Distribute Candidate</button>
+    <div class="col-sm-2 pt-3">
+        <button class="btn btn-danger mt-1 mx-1"  data-bs-toggle="modal" data-bs-target="#exampleModal" >Distribute Candidate</button>
+        <button class="btn btn-danger  mt-1 mx-1"  >Add Panelist</button>
         <form [formGroup] = "distributeCandidateForm">
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -164,28 +165,91 @@
 </div>
 <!-- Ng FOR -->
 <div class=" mt-4 py-2 mx-3" >
-  <h5 class="text-center">Contact Details</h5>
-<div class="row bordered py-2  d-flex justify-content-center" >
-<div class="col-sm-3  d-flex justify-content-center">
-  <b>Contact Person: &nbsp;</b>
-  <span></span>
+  <div class="accordion" id="accordionExample">
+    <div class="accordion-item" *ngFor=" let interviewPanelist of interviewPanelistData; let i = index">
+      <h2 class="accordion-header" id="headingOne">
+        <button class="accordion-button" type="button" (click)="listCandidatesInPanel(interviewPanelist.panel_title+'#'+i)" data-bs-toggle="collapse"  [attr.data-bs-target]="'#abc'+ i" aria-expanded="true" aria-controls="collapseOne">
+          <b>{{interviewPanelist.panel_title}}&nbsp;</b>
+          <b>&nbsp;Panelist Name:&nbsp;</b>
+          <b *ngFor="let panelistName of interviewPanelistData[i].panelist">&nbsp;{{panelistName}}&nbsp;</b>
+          <b>&nbsp; Coordinator:&nbsp;</b>
+          <b *ngFor = "let coordinator of interviewPanelistData[i].coordinator">&nbsp;{{coordinator}}</b>
+        </button>
+      </h2>
+      <div [attr.id]="'abc'+i" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+        <div class="accordion-body" >
+          <table class="table table-striped">
+            <thead>
+              <tr >
+                <th scope="col" text-align= "center">Slots</th>
+                <th scope="col" text-align= "center">Candidate Name</th>
+                <th scope="col" text-align= "center">Email</th>
+                <th scope="col" text-align= "center">Phone Number</th>
+                <th scope="col" text-align= "center">Feedback</th>
+                <th scope="col" text-align= "center">Last Modified By & Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let listCandidatesInPanelData of listCandidatesInPanelData[i]; let x = index">
+                <td>{{listCandidatesInPanelData.interview_time}}</td>
+                <td>{{listCandidatesInPanelData.candidate_name}}</td>
+                <td>{{listCandidatesInPanelData.email}}</td>
+                <td>{{listCandidatesInPanelData.phone_number}}</td>
+                <td>{{listCandidatesInPanelData.feedback[0]}}
+                  <i class="fa fa-plus-circle" data-bs-toggle="modal" [attr.data-bs-target]="'#exampleModal' + x " style="color: red;"></i>
 
-</div>
 
-<div class="col-3 d-flex justify-content-center ">
-  <span><i class="fa fa-envelope-square fa-2x"></i><b>  </b></span>
+                  <div class="modal fade" [attr.id]="'exampleModal' + x" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel"> Feedback Form</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <label>Select Status</label>
+                          <select class="form-select form-select-md "aria-label=".form-select-lg example">
+                            <option>Selected</option>
+                            <option>Rejected</option>
+                            </select>
 
-</div>
-<div class="col-3 d-flex justify-content-center">
-  <span><i class="fa fa-phone " style="font-size: 30px;"></i><b> </b></span>
+                            <label for="exampleFormControlTextarea1">Feedback</label>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
 
-</div>
-<div class="col-3 d-flex justify-content-center">
-  <i class="fa fa-edit fa-2x" ></i>
 
-</div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" >Save changes</button>
+                          
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-</div>
+
+                </td>
+                <td> 
+                  {{listCandidatesInPanelData.updated_by}} 
+                  <br>
+                 
+                   {{listCandidatesInPanelData.updated_on}} 
+                   <br>
+          
+                   {{listCandidatesInPanelData.updated_at}}</td>
+                
+                
+              </tr>
+             
+            </tbody>
+          </table>
+          
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  
 </div>
 <!-- Ng FOR -->
 <div class="row  mx-1 pt-5">

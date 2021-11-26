@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import getEventDays from 'src/Interfaces/getEventDays.component';
 import { listAllHiringDriveandID } from 'src/Interfaces/listAllHiringDriveAndID.interface';
 import { listInterviewPanelist } from 'src/Interfaces/listInterviewPanelist.interface';
+import { listCandidatesInPanel } from 'src/Interfaces/listCandidatesInPanel.interface';
 import { listAllHiringDriveandIDService } from '../Services/listAllHiringDriveAndID.service';
 import { panelistManagementService } from '../Services/panelistManagement.service';
 import {FormGroup,FormControl, Validators} from '@angular/forms'
@@ -23,6 +24,7 @@ export class PanelistManagementComponent implements OnInit {
   currentDate!: string
 
   distributeCandidateForm!: FormGroup
+  listCandidatesInPanelData!:Array<listCandidatesInPanel[]>
 
   constructor(private listAllHiringDriveandID: listAllHiringDriveandIDService, private panelistManagementService: panelistManagementService) {
 
@@ -63,10 +65,35 @@ export class PanelistManagementComponent implements OnInit {
         ],
         description: "Interview Round 1-Day 1",
         panel_title: "Panel - 1",
-        type: "interview_round#Interview Round 1-Day 1panel_id#Panel - 1"
+        type: "interview_round#Interview Round 1-Day 1panel_id#Panel - 1",
+        
 
       }
     ]
+    this.listCandidatesInPanelData = [ [
+      {
+        candidate_name: "vishali",
+          email: "vaishali000b@gmail.com",
+            phone_number: "2228393441",
+            feedback: [
+                "Not good in technical round",
+                "Not available"
+            ],
+            interview_date: "2021-10-23",
+            updated_at: "2021-11-26 06:12:31.162510",
+            updated_by: "string",
+            updated_on: "2021-11-26 06:12:31.162510",
+            interview_time: "09:10 AM - 10:10 AM",
+            status: [
+                "rejected",
+                "selected"
+            ]
+
+      }
+      
+    ]
+    ]
+    
     
 
     
@@ -112,6 +139,30 @@ export class PanelistManagementComponent implements OnInit {
         }
         else {
           this.interviewPanelistData = data.data;
+          for(let i = 0 ; i<data.data.length - 1 ; i++){
+
+            this.listCandidatesInPanelData.push( [{
+              candidate_name: "raja",
+                email: "",
+                  phone_number: "",
+                  feedback: [
+                      "",
+                      ""
+                  ],
+                  interview_date: "",
+                  updated_at: "",
+                  updated_by: "",
+                  updated_on: "",
+                  interview_time: "",
+                  status: [
+                      "",
+                      ""
+                  ]
+      
+            }])
+
+          }
+          
           console.log(this.interviewPanelistData);
           
 
@@ -154,6 +205,29 @@ export class PanelistManagementComponent implements OnInit {
         }
       )
 
+
+    }
+
+    listCandidatesInPanel(data:string){
+
+      const dataArray= data.split("#");
+      console.log(dataArray);
+
+      const panel_title = dataArray [0];
+      const index = dataArray[1];
+
+      this.panelistManagementService.listCandidatesInPanel(panel_title,this.currentEvent).subscribe(
+        data => {
+          if(data.success == false){
+
+          }
+          else{
+            this.listCandidatesInPanelData[Number(index)] = data.data;
+          }
+        }
+      )
+
+  
 
     }
 
