@@ -8,13 +8,13 @@
 
         <div class="col-md-12 mt-4"></div>
         <div class="col-md-6 mt-5">
-                <h1>Hiring Drive Name</h1>
+                <h1>{{drive_name}}</h1>
         </div>
         <div class="col-sm-5 mt-5 d-flex justify-content-center">
           <b>Select Drive </b>
-          <select class="form-select form-select-lg  "aria-label=".form-select-lg example">
+          <select class="form-select form-select-lg  " (change) = "abc($event)" aria-label=".form-select-lg example">
             <option>Select the University</option>
-            <option [value]="hiringDriveNameandId.drive_id" *ngFor="let hiringDriveNameandId of hiringDriveNamesAndId ">{{hiringDriveNameandId.drive_title}}</option>
+            <option [value]="hiringDriveNameandId.drive_id+'#'+ hiringDriveNameandId.drive_title" *ngFor="let hiringDriveNameandId of hiringDriveNamesAndId ">{{hiringDriveNameandId.drive_title}}</option>
          
           </select>
          
@@ -25,9 +25,9 @@
 <div class="row pt-3 d-flex justify-content-between  mb-5" >
     <div class="col-sm-3">
         <label>Select Drive Event:</label>
-        <select class="form-select form-select-md "aria-label=".form-select-lg example">
+        <select class="form-select form-select-md "aria-label=".form-select-lg example" (change) = "changeEventDay($event)">
         
-            <option [value]="eventDay.name" *ngFor = "let eventDay of eventDays">{{eventDay.name}}</option>
+            <option [value]="eventDay.name + '#' +eventDay.date " *ngFor = "let eventDay of eventDays">{{eventDay.name}}</option>
          
           </select>
     </div>
@@ -135,7 +135,7 @@
                         
                       </div>
 
-                    <label>Select Number of Panelist</label>
+                    <label>Interviews Per Panel</label>
                     <input formControlName="panelist" type="number" min="1" max = "10" class="form-control">
 
                     <label>Break Time between Interviews in Minutes</label>
@@ -168,7 +168,7 @@
   <div class="accordion" id="accordionExample">
     <div class="accordion-item" *ngFor=" let interviewPanelist of interviewPanelistData; let i = index">
       <h2 class="accordion-header" id="headingOne">
-        <button class="accordion-button" type="button" (click)="listCandidatesInPanel(interviewPanelist.panel_title+'#'+i)" data-bs-toggle="collapse"  [attr.data-bs-target]="'#abc'+ i" aria-expanded="true" aria-controls="collapseOne">
+        <button class="accordion-button collapsed" type="button" (click)="listCandidatesInPanel(interviewPanelist.panel_title+'#'+i)" data-bs-toggle="collapse"  [attr.data-bs-target]="'#abc'+ i" aria-expanded="false" aria-controls="collapseOne">
           <b>{{interviewPanelist.panel_title}}&nbsp;</b>
           <b>&nbsp;Panelist Name:&nbsp;</b>
           <b *ngFor="let panelistName of interviewPanelistData[i].panelist">&nbsp;{{panelistName}}&nbsp;</b>
@@ -176,7 +176,7 @@
           <b *ngFor = "let coordinator of interviewPanelistData[i].coordinator">&nbsp;{{coordinator}}</b>
         </button>
       </h2>
-      <div [attr.id]="'abc'+i" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+      <div [attr.id]="'abc'+i" class="accordion-collapse collapse " aria-labelledby="headingOne" data-bs-parent="#accordionExample">
         <div class="accordion-body" >
           <table class="table table-striped">
             <thead>
@@ -191,52 +191,56 @@
             </thead>
             <tbody>
               <tr *ngFor="let listCandidatesInPanelData of listCandidatesInPanelData[i]; let x = index">
-                <td>{{listCandidatesInPanelData.interview_time}}</td>
+                <td>{{listCandidatesInPanelData.interview_time}} 
+                  <br>
+                  {{listCandidatesInPanelData.interview_date}}
+                </td>
                 <td>{{listCandidatesInPanelData.candidate_name}}</td>
                 <td>{{listCandidatesInPanelData.email}}</td>
                 <td>{{listCandidatesInPanelData.phone_number}}</td>
                 <td>{{listCandidatesInPanelData.feedback[0]}}
-                  <i class="fa fa-plus-circle" data-bs-toggle="modal" [attr.data-bs-target]="'#exampleModal' + x " style="color: red;"></i>
+                  <i class="fa fa-plus-circle" data-bs-toggle="modal" [attr.data-bs-target]="'#a'+ i +''+ x" style="color: red;"></i>
 
 
-                  <div class="modal fade" [attr.id]="'exampleModal' + x" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal fade" [attr.id]="'a'+ i +''+ x " tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                       <div class="modal-content">
                         <div class="modal-header">
                           <h5 class="modal-title" id="exampleModalLabel"> Feedback Form</h5>
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
+                        <form [formGroup] = "candidateFeedback">
                         <div class="modal-body">
+                          
                           <label>Select Status</label>
-                          <select class="form-select form-select-md "aria-label=".form-select-lg example">
-                            <option>Selected</option>
-                            <option>Rejected</option>
+                          <select class="form-select form-select-md " aria-label=".form-select-lg example" (change) = "setSelectionStatus($event)">
+                            <option selected value = "">Choose Status</option>
+                            <option [value] = "listCandidatesInPanelData.email + ' ' + 'selected' +' '+interviewPanelist.panel_title" >Selected</option>
+                            <option [value] = "listCandidatesInPanelData.email + ' ' + 'rejected' +' '+interviewPanelist.panel_title">Rejected</option>
                             </select>
 
                             <label for="exampleFormControlTextarea1">Feedback</label>
-    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                            <textarea formControlName= "feedback" class="form-control" id="listCandidatesInPanelData.email" rows="3"></textarea>
+                         
 
 
                         </div>
                         <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" >Save changes</button>
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Close</button>
+                          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="setFeedback()" [disabled] = " !candidateFeedback.valid && submitFeedbackButtonDisabled ">Save changes</button>
                           
                         </div>
+                      </form>
                       </div>
                     </div>
                   </div>
 
 
                 </td>
-                <td> 
-                  {{listCandidatesInPanelData.updated_by}} 
-                  <br>
-                 
-                   {{listCandidatesInPanelData.updated_on}} 
-                   <br>
-          
-                   {{listCandidatesInPanelData.updated_at}}</td>
+              
+                <td> {{listCandidatesInPanelData.updated_by}} <br>
+                 {{listCandidatesInPanelData.updated_on}} 
+                  <br>{{listCandidatesInPanelData.updated_at}}</td>
                 
                 
               </tr>

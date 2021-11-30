@@ -25,7 +25,7 @@ constructor (private http:HttpClient){
 getCandidates(){
 
     const params = new HttpParams()
-    .set('drive_id', "98ded190-eaf2-4cf2-be36-30ea00ce189c")
+    .set('drive_id', "98ded190-eaf2-4cf2-be36-30ea00ce189c")//Change
     .set('page_no', '1')
     .set('page_limit','68')
 
@@ -40,7 +40,7 @@ uploadCandidates () {
     let formData = new FormData();
 
     formData.append('file',this.candidate_file);
-    formData.append('drive_id',"98ded190-eaf2-4cf2-be36-30ea00ce189c")
+    formData.append('drive_id',"98ded190-eaf2-4cf2-be36-30ea00ce189c")//Change
 
 
     return this.http.post<any>("https://wgj66rpik8.execute-api.ap-south-1.amazonaws.com/dev/import-candidates",formData,

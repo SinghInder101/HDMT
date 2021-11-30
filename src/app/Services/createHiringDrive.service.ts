@@ -28,5 +28,19 @@ export class createHiringDriveService{
         return this.http.post<any>(this.hiringDriveAPI,body, httpOptions)
     }
 
+    public listAllUsers(){
+        var headers_object = new HttpHeaders(
+            {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer "+ localStorage.getItem("token")
+            });
+            const httpOptions = {
+                headers: headers_object
+            }
+
+            return this.http.get<any>('https://vppizzkib1.execute-api.ap-south-1.amazonaws.com/dev/list_admins_and_users',httpOptions)
+
+    }
+
 
 }

@@ -16,12 +16,12 @@ export class listHiringDriveService {
     }
 
 
-    public getHiringDrives(){
+    public getHiringDrives(page_no:string){
 
         const params = new HttpParams()
         
-        .set('page_no', 1)
-        .set('page_limit',68)
+        .set('page_no', page_no)
+        .set('page_limit',10)
 
         console.log(params);
 

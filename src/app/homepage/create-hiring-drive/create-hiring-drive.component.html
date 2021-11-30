@@ -3,32 +3,44 @@
 <div class="container pt-5">
   <form class="pt-5" [formGroup] = "hiringDriveDetails">
  
-    <h1>Create Hiring Drive:</h1>
+    <h1>Create Hiring Drive</h1>
       <div class="form-group row ">
      
          
           <div class="col-md-4">
-              <label class="col-form-label">Hiring Drive Name</label>
-              <input class="form-control " formControlName="hiringDriveName" >
-              <!-- <small>Please Enter correct password</small> -->
+              <label class="col-form-label"><b>Hiring Drive Name</b></label>
+              <input class="form-control " formControlName="hiringDriveName" > 
+              <small class="text-danger" *ngIf="!hiringDriveDetails.get('hiringDriveName')?.valid  ">Please enter the hiring drive name</small><!-- <small>Please Enter correct password</small> -->
+
           </div>
           </div>
           <div class="form-group row">
           <div class="col-md-4">
-            <label class="col-form-label">Description</label>
+            <label class="col-form-label"><b>Description</b></label>
             <textarea class="form-control" formControlName="hiringDriveDescription" ></textarea>
             <!-- <small>Please Enter correct password</small> -->
         </div>
         <div class="form-group row mb-4">
 
-          <div class="col-md-8 mt-4">
-            <p>Select Drive Admin:</p>
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-  <label class="form-check-label " for="flexCheckDefault"> &nbsp; Arsh Arafaat &nbsp;</label>
-  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-  <label class="form-check-label " for="flexCheckDefault"> &nbsp; Awanti Singh &nbsp; </label>
-  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-  <label class="form-check-label " for="flexCheckDefault"> &nbsp; Virendra Sharma &nbsp;</label>
+          <div class="col-md-4 mt-4">
+            <p><b>Select Drive Admin:</b></p>
+            <select class="form-select" (change)="addAdmin($event)"id="gender1">
+              <option>Select</option>
+              <option *ngFor= "let user of users">{{user.name}}</option>
+            </select>
+        
+       </div>
+       <div class="col-md-4 mt-4">
+        
+        <p>&nbsp;</p>
+        <span *ngFor=" let admin of admins">
+        <input class="form-check-input" type="checkbox" (click)= "removeAdmin($event)"checked [value]="admin" id="flexCheckDefault">
+        <label class="form-check-label" for="flexCheckIndeterminate">
+          &nbsp;{{admin}} &nbsp;
+        </label>
+      </span>
+       
+        
        </div>
         </div>
 

@@ -14,7 +14,8 @@ export class HomepageComponent implements OnInit {
 
   drives!:hiringDriveDataInterface[];
   searchTerm!: string
-  
+  currentPage: number = 1;
+  totalPages: number = 1;
 
   constructor(private manageHiringDriveService:manageHiringDriveService,private listHiringDriveService:listHiringDriveService, private router: Router,private editHiringDriveService:editHiringDriveService) { 
 
@@ -60,7 +61,7 @@ export class HomepageComponent implements OnInit {
   ngOnInit(): void {
 
 
-    this.listHiringDriveService.getHiringDrives().subscribe(
+    this.listHiringDriveService.getHiringDrives(String(this.currentPage)).subscribe(
       data => {
         console.log(data);
         
@@ -71,6 +72,9 @@ export class HomepageComponent implements OnInit {
         else{
           this.router.navigate(['/home'])
            this.drives = data.data;
+           localStorage.setItem('drive_id',this.drives[0].drive_id);
+           this.totalPages = Number(data.total_pages);
+
       
 
           console.log(this.drives);
@@ -135,4 +139,16 @@ export class HomepageComponent implements OnInit {
 
   }
 
+  counter(flag: number){
+    if(flag == 1 && this.currentPage != this.totalPages){
+      this.currentPage++;
+      this.ngOnInit();
+
+    }
+    else if(flag == 0 && this.currentPage!=1){
+      this.currentPage--;
+      this.ngOnInit();
+    }
+
+  }
 }

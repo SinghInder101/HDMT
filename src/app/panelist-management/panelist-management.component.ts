@@ -19,12 +19,17 @@ export class PanelistManagementComponent implements OnInit {
   eventDays!:getEventDays[];
   interviewPanelistData!:listInterviewPanelist[];
   flag:boolean = false;
-  time = {hour: 13, minute: 30};
+  drive_name:string = localStorage.getItem('drive_name') || "";
+
   currentEvent!: string
   currentDate!: string
+  candidateSelectionStatus:Array<String> = [];
+  submitFeedbackButtonDisabled: boolean = true;
 
   distributeCandidateForm!: FormGroup
   listCandidatesInPanelData!:Array<listCandidatesInPanel[]>
+
+  candidateFeedback!: FormGroup
 
   constructor(private listAllHiringDriveandID: listAllHiringDriveandIDService, private panelistManagementService: panelistManagementService) {
 
@@ -32,9 +37,13 @@ export class PanelistManagementComponent implements OnInit {
       'hours': new FormControl(null,[Validators.required]),
       'minutes': new FormControl(null,[Validators.required]),
       'meridian': new FormControl(null,[Validators.required]),
-      'panelist' : new FormControl(null,[Validators.required]),
-      'breakInInterviews' : new FormControl(1 , [Validators.required]),
-      'lunchBreakDuration' : new FormControl(1 , [Validators.required])
+      'panelist' : new FormControl(5,[Validators.required]),
+      'breakInInterviews' : new FormControl(15, [Validators.required]),
+      'lunchBreakDuration' : new FormControl(60 , [Validators.required])
+    })
+    this.candidateFeedback = new FormGroup ({
+      'feedback' : new FormControl(null,[Validators.required])
+
     })
 
     this.hiringDriveNamesAndId = [
@@ -120,8 +129,8 @@ export class PanelistManagementComponent implements OnInit {
         }
         else{
           this.eventDays = data.data;
-          this.currentEvent = this.eventDays[1].name;/*Change*/
-          this.currentDate = this.eventDays[1].date /*Change*/
+          this.currentEvent = this.eventDays[0].name;/*Change*/
+          this.currentDate = this.eventDays[0].date;/*Change*/
           this.flag = true;
           
 
@@ -131,7 +140,7 @@ export class PanelistManagementComponent implements OnInit {
     )
 
    setTimeout(() => {
-    this.panelistManagementService.listInterviewPanelist(this.eventDays[1].name /*Change*/).subscribe(
+    this.panelistManagementService.listInterviewPanelist(this.currentEvent /*Change*/).subscribe(
       data => {
         
         if(data.success == false){
@@ -175,12 +184,10 @@ export class PanelistManagementComponent implements OnInit {
 
     }
 
-
-
     distributeCandidates(){
 
       var body = {
-        drive_id: "98ded190-eaf2-4cf2-be36-30ea00ce189c", // Change
+        drive_id: localStorage.getItem('drive_id'), // Change
         interview_round: this.currentEvent,
         interview_details:{
           start_time: this.distributeCandidateForm.get('hours')?.value+":"+this.distributeCandidateForm.get('minutes')?.value+" "+this.distributeCandidateForm.get('meridian')?.value, // Change
@@ -230,6 +237,108 @@ export class PanelistManagementComponent implements OnInit {
   
 
     }
+
+    setFeedback(){
+
+    
+    
+
+    const body = {
+
+      drive_id : "98ded190-eaf2-4cf2-be36-30ea00ce189c",
+      interview_round:this.currentEvent,
+      email: this.candidateSelectionStatus[0],
+      status: this.candidateSelectionStatus[1],
+      panel_title: this.candidateSelectionStatus[2],
+      feedback: this.candidateFeedback.get('feedback')?.value || ""
+
+    }
+    console.log(body);
+  }
+    
+      
+    
+    setSelectionStatus(event:Event){
+
+
+      if((event.target as HTMLInputElement).value != ''){
+    console.log((event.target as HTMLInputElement).value)
+    const data = (event.target as HTMLInputElement).value
+   this.candidateSelectionStatus = data.split(" ");
+   this.submitFeedbackButtonDisabled = false;
+      }
+      else{
+        this.submitFeedbackButtonDisabled = true;
+      }
+  
+
+
+
+
+    }
+
+    changeEventDay(event:Event){
+      console.log((event.target as HTMLInputElement).value)
+
+      var eventanddate = ((event.target as HTMLInputElement).value).split("#");
+
+      const currEvent = eventanddate[0];
+      const currDate = eventanddate[1];
+      this.currentEvent = currEvent
+      this.currentDate = currDate
+
+        this.panelistManagementService.listInterviewPanelist(this.currentEvent /*Change*/).subscribe(
+          data => {
+            
+            if(data.success == false){
+    
+            }
+            else {
+              this.interviewPanelistData = data.data;
+              for(let i = 0 ; i<data.data.length - 1 ; i++){
+    
+                this.listCandidatesInPanelData.push( [{
+                  candidate_name: "raja",
+                    email: "",
+                      phone_number: "",
+                      feedback: [
+                          "",
+                          ""
+                      ],
+                      interview_date: "",
+                      updated_at: "",
+                      updated_by: "",
+                      updated_on: "",
+                      interview_time: "",
+                      status: [
+                          "",
+                          ""
+                      ]
+          
+                }])
+    
+              }
+              
+              console.log(this.interviewPanelistData);
+              
+    
+            }
+          }
+        )
+    
+
+      
+
+    }
+
+    abc(event:Event){
+      console.log((event.target as HTMLInputElement).value)
+      localStorage.setItem("drive_id",((event.target as HTMLInputElement).value).split("#")[0]);
+
+      localStorage.setItem("drive_name",((event.target as HTMLInputElement).value).split("#")[1]);
+      this.drive_name = localStorage.getItem('drive_name') || "";
+      this.ngOnInit();
+  }
 
   }
 

@@ -16,7 +16,7 @@ export class panelistManagementService {
         this.drive_id = localStorage.getItem('drive_id')!;
 
         const params = new HttpParams()
-        .set("drive_id","98ded190-eaf2-4cf2-be36-30ea00ce189c")//Change
+        .set("drive_id",this.drive_id)//Change
 
 
         return this.http.get<any>("https://hakvaj3wya.execute-api.ap-south-1.amazonaws.com/dev/list_interview_rounds",{
@@ -35,7 +35,7 @@ export class panelistManagementService {
 
         console.log(Interview_round)
         const params = new HttpParams()
-        .set("drive_id","98ded190-eaf2-4cf2-be36-30ea00ce189c") //Change
+        .set("drive_id",this.drive_id) //Change
         .set("interview_round",Interview_round)
         console.log(Interview_round)
 

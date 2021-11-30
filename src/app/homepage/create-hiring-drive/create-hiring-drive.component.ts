@@ -6,6 +6,7 @@ import createHiringDrive from 'src/Interfaces/createHiringDrive';
 import { createHiringDriveService } from 'src/app/Services/createHiringDrive.service';
 import { Router } from '@angular/router';
 import { Route } from '@angular/compiler/src/core';
+import { listAdminsAndUsers } from 'src/Interfaces/listAdminsAndUsers.interface';
 @Component({
   selector: 'app-create-hiring-drive',
   templateUrl: './create-hiring-drive.component.html',
@@ -21,8 +22,10 @@ export class CreateHiringDriveComponent implements OnInit {
   hiringDriveDetails:FormGroup
   day:number
   createHiringDriveFormData!:createHiringDrive;
+  users!:listAdminsAndUsers[]
+  admins!:Array<string>
 
-  constructor( private createHiringDriveService:createHiringDriveService,private router: Router) { 
+  constructor( private createHiringDriveService:createHiringDriveService,private router: Router ) { 
  this.addData =[0];
 
 this.hiringDriveDates = new FormGroup({})
@@ -39,13 +42,33 @@ this.createHiringDriveFormData = {
 
 }
 
+this.users = [{
+  name: '',
+  email:'',
+  phone_number:'',
+  role:''
+}]
+this.admins = []
+
  }
 
   ngOnInit(): void {
 
+    this.createHiringDriveService.listAllUsers().subscribe(
+      data => {
+        if(data.success == false){
+
+        }
+        else {
+          this.users = data.data;
+        }
+      }
+    )
+
     this.hiringDriveDetails = new FormGroup({
       'hiringDriveName' : new FormControl(null, Validators.required),
       'hiringDriveDescription':new FormControl(null, Validators.required),
+      'hiringDriveAdmin': new FormControl(null, Validators.required)
 
     })
     this.hiringDriveDates = new FormGroup({
@@ -106,7 +129,7 @@ this.createHiringDriveFormData = {
    this.createHiringDriveFormData.contact_person = (<FormArray>this.contactPerson.get('data')).value;
    this.createHiringDriveFormData.events = (<FormArray>this.hiringDriveDates.get('data')).value;
    this.createHiringDriveFormData.description = this.hiringDriveDetails.get('hiringDriveDescription')?.value
-   this.createHiringDriveFormData.drive_admins = ["Inder","Vinny"];
+   this.createHiringDriveFormData.drive_admins = this.admins;
 
    console.log(this.createHiringDriveFormData)
    this.createHiringDriveService.createHiringDrive(this.createHiringDriveFormData).subscribe
@@ -127,5 +150,24 @@ this.createHiringDriveFormData = {
    
 
     
+  }
+
+  addAdmin(event:Event){
+
+    var admin = (event.target as HTMLInputElement).value
+    console.log(admin)
+
+
+    if(this.admins.indexOf(admin) == -1 && admin != 'Select'){
+      this.admins.push(admin);
+    }
+
+  }
+  removeAdmin(event:Event){
+    
+    this.admins = this.admins.filter( (admin) => {
+
+      return admin != (event.target as HTMLInputElement).value
+    })
   }
 }
