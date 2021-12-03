@@ -5,6 +5,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import driveEvents from 'src/Interfaces/driveEvents.interface';
 import { listAdminsAndUsers } from 'src/Interfaces/listAdminsAndUsers.interface';
 import {FormGroup,FormControl, Validators} from '@angular/forms'
+import { listAllHiringDriveandID } from 'src/Interfaces/listAllHiringDriveAndID.interface';
+import { listAllHiringDriveandIDService } from '../Services/listAllHiringDriveAndID.service';
 
 @Component({
   selector: 'app-manage-panelist',
@@ -19,15 +21,21 @@ export class ManagePanelistComponent implements OnInit {
   listAdminsAndUsers!: listAdminsAndUsers[]
   index: number = 0;
   display: boolean = false;
+  drive_name: string = localStorage.getItem('drive_name')!
 
   emailAndPhoneForm!:FormGroup;
-  hiringDriveNamesAndId: any;
+  hiringDriveNamesAndId!: listAllHiringDriveandID []
 
 
 
-  constructor(private managePanelistService:managePanelistService) {
+  constructor(private listAllHiringDriveandID: listAllHiringDriveandIDService,private managePanelistService:managePanelistService) {
   
-   
+    this.hiringDriveNamesAndId = [
+      {
+        drive_id:"",
+        drive_title:""
+      }
+    ]
 
     this.panelistData =[{
       person_name:"",
@@ -68,6 +76,17 @@ export class ManagePanelistComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.listAllHiringDriveandID.getAllHiringDriveandId().subscribe(
+      data => {
+        if(data.success == false){
+
+        }
+        else{
+          this.hiringDriveNamesAndId = data.data
+        }
+      }
+    )
 
     this.emailAndPhoneForm = new FormGroup ({
       'email' : new FormControl(null ,[
@@ -237,5 +256,13 @@ export class ManagePanelistComponent implements OnInit {
     )
     
   }
+  xyz(event:Event){
+    console.log((event.target as HTMLInputElement).value)
+    localStorage.setItem("drive_id",((event.target as HTMLInputElement).value).split("#")[0]);
+
+    localStorage.setItem("drive_name",((event.target as HTMLInputElement).value).split("#")[1]);
+    this.drive_name = localStorage.getItem('drive_name') || "";
+    this.ngOnInit();
+}
 
 }

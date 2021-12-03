@@ -7,15 +7,14 @@
   
           <div class="col-md-12 mt-4"></div>
           <div class="col-md-6 mt-5">
-                  <h3> Chitkara University Placement Drive</h3>
+                  <h3> {{drive_name}}</h3>
           </div>
           <div class="col-sm-5 mt-5 d-flex justify-content-center">
             <b>Select Drive </b>
-            <select class="form-select form-select-lg "  aria-label=".form-select-lg example">
-              <option >Select the University</option>
-              <option value="1">UPES</option>
-              <option value="2">Chandigarh University</option>
-              <option value="3">CGC Landran</option>
+            <select class="form-select form-select-lg  " (change) = "abc($event)" aria-label=".form-select-lg example">
+              <option disabled>Select the University</option>
+              <option [selected]="drive_name == hiringDriveNameandId.drive_title ? true : false" [value]="hiringDriveNameandId.drive_id+'#'+ hiringDriveNameandId.drive_title" *ngFor="let hiringDriveNameandId of hiringDriveNamesAndId ">{{hiringDriveNameandId.drive_title}}</option>
+           
             </select>
            
           </div>
@@ -70,7 +69,7 @@
           <td>{{candidateDetail.interview_date}}</td>
           <td>{{candidateDetail.interview_time}}</td>
           <td>{{candidateDetail.status}}</td>
-          <td class="text-center"><i class="fa fa-edit fa-2x" ></i></td>
+          <td>{{candidateDetail.feedback}}</td>
         </tr>
        
       </tbody>

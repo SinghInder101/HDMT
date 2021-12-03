@@ -1,6 +1,8 @@
 import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { candidateDetails } from 'src/Interfaces/candidateDetails.interface';
+import { listAllHiringDriveandID } from 'src/Interfaces/listAllHiringDriveAndID.interface';
+import { listAllHiringDriveandIDService } from '../Services/listAllHiringDriveAndID.service';
 import { manageCandidateService } from '../Services/manageCandidate.service';
 
 @Component({
@@ -12,8 +14,16 @@ export class ManageCandidateComponent implements OnInit {
 
   file:any
   candidateDetails!: candidateDetails[]
+  hiringDriveNamesAndId!: listAllHiringDriveandID []
+  drive_name = localStorage.getItem('drive_name')
 
-  constructor(private manageCandidateService: manageCandidateService) { 
+  constructor(private listAllHiringDriveandID: listAllHiringDriveandIDService,private manageCandidateService: manageCandidateService) { 
+    this.hiringDriveNamesAndId = [
+      {
+        drive_id:"",
+        drive_title:""
+      }
+    ]
     this.candidateDetails = [
       {
       status: "",
@@ -33,9 +43,37 @@ export class ManageCandidateComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.listAllHiringDriveandID.getAllHiringDriveandId().subscribe(
+      data => {
+        if(data.success == false){
+
+
+
+        }
+        else{
+          this.hiringDriveNamesAndId = data.data
+        }
+      }
+    )
     this.manageCandidateService.getCandidates().subscribe(
       data => {
         if(data.success == false){
+         this.candidateDetails = [
+            {
+            status: "",
+            interview_time: "",
+            interview_date: "",
+            email: "",
+            panel: "",
+            candidate_name: "" ,
+            roll_no: "",
+            graduation_year: "",
+            phone_number: "",
+            feedback: "",
+            type:"",
+      
+        }
+          ]
 
         }
         else{
@@ -63,10 +101,24 @@ export class ManageCandidateComponent implements OnInit {
         }
         else{
           console.log(data.message)
+          this.ngOnInit()
         }
       }
     )
 
   }
+  abc(event:Event){
+    console.log((event.target as HTMLInputElement).value)
+    localStorage.setItem("drive_id",((event.target as HTMLInputElement).value).split("#")[0]);
+
+    localStorage.setItem("drive_name",((event.target as HTMLInputElement).value).split("#")[1]);
+    this.drive_name = localStorage.getItem('drive_name') || "";
+
+    
+      this.ngOnInit();
+
+
+  
+}
 
 }
