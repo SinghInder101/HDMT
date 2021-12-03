@@ -47,7 +47,7 @@ uploadCandidates () {
 
     return this.http.post<any>("https://wgj66rpik8.execute-api.ap-south-1.amazonaws.com/dev/import-candidates",formData,
         { 
-        headers: new HttpHeaders({ 
+        headers: new HttpHeaders({ 'Accept': '*/*',
     'Authorization':  localStorage.getItem("token")!})
    
         })
