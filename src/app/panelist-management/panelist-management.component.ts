@@ -9,25 +9,15 @@ import {FormGroup,FormControl, Validators} from '@angular/forms'
 import { ThrowStmt } from '@angular/compiler';
 import { staticFileData } from 'src/Interfaces/staticFileData.interface';
 import { IDropdownSettings } from "ng-multiselect-dropdown";
+import { addPanelistToPanel } from 'src/Interfaces/addPanelistToPanel.interface';
+import { listAdminsAndUsers } from 'src/Interfaces/listAdminsAndUsers.interface';
 @Component({
   selector: 'app-panelist-management',
   templateUrl: './panelist-management.component.html',
   styleUrls: ['./panelist-management.component.css']
 })
 export class PanelistManagementComponent implements OnInit {
- dropDownList = [
-  { item_id: 1, item_text: 'Item1' },
-  { item_id: 2, item_text: 'Item2' },
-  { item_id: 3, item_text: 'Item3' },
-  { item_id: 4, item_text: 'Item4' },
-  { item_id: 5, item_text: 'Item5' }
-   ]
-  dropDownSettings:IDropdownSettings = {
-    idField: 'item_id',
-      textField: 'item_text',
-    enableCheckAll: false,
 
-  }
   hiringDriveNamesAndId!: listAllHiringDriveandID []
   eventDays!:getEventDays[];
   interviewPanelistData!:listInterviewPanelist[];
@@ -46,11 +36,29 @@ export class PanelistManagementComponent implements OnInit {
   candidateFeedback!: FormGroup;
   addPanelistForm!:FormGroup;
   addPanelistData!: staticFileData
+  getPanelistNames!: addPanelistToPanel[];
+  panelistToPanel: Array<String> = [];
+  coordinatorToPanel:Array<String> = [];
+  getUserNames:listAdminsAndUsers[] = [{
+    name:'',
+    phone_number:"",
+    role:"",
+    email:"",
+  }]
 
   constructor(private listAllHiringDriveandID: listAllHiringDriveandIDService, private panelistManagementService: panelistManagementService) {
 
+    this.getPanelistNames = [
+      {
+        person_name:'a'
+      },{
+        person_name:'b'
+      }
+    ]
     this.addPanelistForm = new FormGroup({
       'interviewRound' : new FormControl({value: '', disabled: true},[Validators.required]),
+     'panelDescription' : new FormControl(null,[Validators.required]),
+     'panelTitle': new FormControl(null , [Validators.required])
     
     })
     this.addPanelistData = {
@@ -383,23 +391,149 @@ export class PanelistManagementComponent implements OnInit {
         }
       )
       this.panelistManagementService.fetchPanelistForAddPanelist(this.currentEvent).subscribe
+
         (      data => {
           if(data.success == false){
 
           }
           else{
-            console.log(data.data);
-            this.addPanelistData = data.data
+            this.getPanelistNames = data.data;
+            // console.log(this.getPanelistNames[0].person_name+);
             
           }
        
       }
 )
+      this.panelistManagementService.fetchUsersForAddCoordinators().subscribe(
+
+        data => {
+          if(data.success == false){
+
+          }
+          else{
+
+            this.getUserNames = data.data;
+
+          }
+        }
+
+      )
 
     
    
 
   }
+
+  addPanelist(event:Event){
+    
+    var panelist = (event.target as HTMLInputElement).value;
+
+    if(this.panelistToPanel.indexOf(panelist) == -1 && panelist != 'Select'){
+    this.panelistToPanel.push(panelist);
+    }
+
+  }
+
+  removePanelist(event:Event){
+
+    this.panelistToPanel = this.panelistToPanel.filter((panelist) => {
+      return panelist != (event.target as  HTMLInputElement).value
+    })
+  }
+  addCoordinator(event: Event){
+    var coordinator = (event.target as HTMLInputElement).value;
+
+    if(this.coordinatorToPanel.indexOf(coordinator) == -1 && coordinator != 'Select'){
+
+      this.coordinatorToPanel.push(coordinator);
+    }
+
+  }
+  removeCoordinator(event:Event){
+    
+    this.coordinatorToPanel = this.coordinatorToPanel.filter( (coordinator) => {
+
+      return coordinator!= (event.target as HTMLInputElement).value;
+    })
+
+  }
+
+  addPanelistToPanel() {
+
+    const body = {
+      drive_id : localStorage.getItem('drive_id'),
+      panel_title: this.addPanelistForm.get('panelTitle')?.value,
+      panelist: this.panelistToPanel,
+      coordinator: this.coordinatorToPanel,
+      description: "",
+      interview_round: this.addPanelistForm.get('interviewRound')?.value
+    }
+    
+    this.panelistManagementService.addPanelistToPanel(body).subscribe(
+      data => {
+        if (data.success == false){
+
+        }
+        else{
+
+          this.refreshAccordions()
+          this.panelistToPanel = [];
+          this.coordinatorToPanel = [];
+        }
+      }
+    )
+    
+
+  }
+
+  refreshAccordions(){
+   
+      this.panelistManagementService.listInterviewPanelist(this.currentEvent /*Change*/).subscribe(
+        data => {
+          
+          if(data.success == false){
+  
+          }
+          else {
+            this.interviewPanelistData = data.data;
+            for(let i = 0 ; i<data.data.length - 1 ; i++){
+  
+              this.listCandidatesInPanelData.push( [{
+                candidate_name: "raja",
+                  email: "",
+                    phone_number: "",
+                    feedback: [
+                        "",
+                        ""
+                    ],
+                    interview_date: "",
+                    updated_at: "",
+                    updated_by: "",
+                    updated_on: "",
+                    interview_time: "",
+                    status: [
+                        "",
+                        ""
+                    ]
+        
+              }])
+  
+            }
+            
+            console.log(this.interviewPanelistData);
+            
+  
+          }
+        }
+      )
+  
+  
+  }
+  clearData(){
+    this.panelistToPanel = [],
+    this.coordinatorToPanel = []
+  }
+
   }
 
 

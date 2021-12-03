@@ -21,11 +21,12 @@ export class ManagePanelistComponent implements OnInit {
   display: boolean = false;
 
   emailAndPhoneForm!:FormGroup;
+  hiringDriveNamesAndId: any;
 
 
 
   constructor(private managePanelistService:managePanelistService) {
-
+  
    
 
     this.panelistData =[{

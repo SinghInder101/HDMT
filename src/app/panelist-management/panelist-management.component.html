@@ -14,7 +14,7 @@
           <b>Select Drive </b>
           <select class="form-select form-select-lg  " (change) = "abc($event)" aria-label=".form-select-lg example">
             <option disabled>Select the University</option>
-            <option [selected]="drive_name == hiringDriveNameandId.drive_title ? true : false"[value]="hiringDriveNameandId.drive_id+'#'+ hiringDriveNameandId.drive_title" *ngFor="let hiringDriveNameandId of hiringDriveNamesAndId ">{{hiringDriveNameandId.drive_title}}</option>
+            <option [selected]="drive_name == hiringDriveNameandId.drive_title ? true : false" [value]="hiringDriveNameandId.drive_id+'#'+ hiringDriveNameandId.drive_title" *ngFor="let hiringDriveNameandId of hiringDriveNamesAndId ">{{hiringDriveNameandId.drive_title}}</option>
          
           </select>
          
@@ -38,41 +38,57 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="exampleModalLabel">Add Panelist</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" click="clearData()"></button>
               </div>
               <form [formGroup] = "addPanelistForm" >
               <div class="modal-body">
-                
-               
-
+ 
                   <label>Current Selected Event:</label>
                   <input class="form-control" formControlName="interviewRound" >
                   <label>Panel Title:</label>
-                  <select class="form-select">
+                  <select class="form-select" formControlName="panelTitle">
+                   
                     <option [value] = "panel" *ngFor= " let panel of addPanelistData.panel_title">{{panel}}</option>
 
                   </select>
                   <label>Panel Description:</label>
-                  <textarea class="form-control"></textarea>
+                  <textarea class="form-control" formControlName = "panelDescription"></textarea>
+                  <small class="text text-danger" *ngIf="addPanelistForm.get('panelDescription')?.invalid && (addPanelistForm.get('panelDescription')?.touched || addPanelistForm.get('panelDescription')?.dirty)">Please Enter a Description</small>
+                  <p></p>
 
-                   <ng-multiselect-dropdown
-                  [settings] = 'dropDownSettings'
-                  [data] ='dropDownList'></ng-multiselect-dropdown> 
-
-                  <!-- <select class='form-select'>
-                    <option></option>
+                  <label>Add Panelist</label>
+                  <select class="form-select" (change)="addPanelist($event)">
+                    <option value="Select">Select</option>
+                    <option *ngFor= "let name of getPanelistNames; let a = index" >{{name.person_name}}</option>
                   </select>
+                  <span class="text text-danger" *ngIf="panelistToPanel.length == 0">Please add a panelist</span>
+                  <p>&nbsp;</p>
+                  <span *ngFor= "let panelist of panelistToPanel">
+                    <input class ="form-check-input" [value] = "panelist" type="checkbox" checked (click)= "removePanelist($event)">
+                    <label class= "form-check-label">{{panelist}}&nbsp;</label>
+                  </span>
+                  <p>&nbsp;</p>
 
-                  <label>Panel Description:</label>
-                  <textarea class="form-control" id="exampleFormControlTextarea1" type="text" formControlName='panelTitle' rows="3"></textarea> -->
-                 
-               
-                    
+                  <label>Select Coordinator</label>
+                  <select class="form-select" (change) = "addCoordinator($event)">
+                    <option value="Select">Select</option>
+                    <option *ngFor= "let userName of getUserNames">{{userName.name}}</option>
+                  </select>
+                  <span class="text text-danger" *ngIf="coordinatorToPanel.length == 0">Please add a coordinator</span>
+                  <p>&nbsp;</p>
+
+                  <span *ngFor = "let coordinator of coordinatorToPanel">
+                    <input class ="form-check-input" [value] = "coordinator" type="checkbox" checked (click)= "removeCoordinator($event)">
+                    <label class = "form-check-label">{{coordinator}}&nbsp;</label>
+
+                  </span>
+           
               </div>
               <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary"   data-bs-dismiss="modal" >Save changes</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click) = "clearData()">Close</button> 
+                  <!-- Calll a function that empties coordinator and panelist array -->
+                  <button type="button" class="btn btn-primary"   data-bs-dismiss="modal" [disabled] = "addPanelistForm.invalid || coordinatorToPanel.length == 0 || panelistToPanel.length == 0" (click) = "addPanelistToPanel()">Save changes</button>
               </div>
             </form>
             

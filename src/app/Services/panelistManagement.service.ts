@@ -106,4 +106,35 @@ export class panelistManagementService {
 
 
     }
+    fetchUsersForAddCoordinators(){
+        const params = new HttpParams()
+        .set("drive_id", this.drive_id);//Change
+
+        
+        return this.http.get<any>("https://vppizzkib1.execute-api.ap-south-1.amazonaws.com/dev/list_admins_and_users",{
+            headers: new HttpHeaders({'Content-Type': 'application/json',
+            'Authorization': "Bearer "+ localStorage.getItem("token")}),
+            params
+        });
+    }
+
+    addPanelistToPanel(body:any){
+
+          
+        var headers_object = new HttpHeaders(
+            {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer "+ localStorage.getItem("token")
+            });
+        
+     
+
+        const httpOptions = {
+            headers: headers_object
+        }
+        return this.http.post<any>("https://hakvaj3wya.execute-api.ap-south-1.amazonaws.com/dev/create_interview_panel",body, httpOptions)
+
+
+
+    }
 }
