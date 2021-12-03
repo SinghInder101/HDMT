@@ -38,14 +38,16 @@ uploadCandidates () {
     
 
     let formData = new FormData();
+    console.log(this.candidate_file)
+    console.log(this.candidate_file.name)
 
-    formData.append('file',this.candidate_file);
+    formData.append('file',this.candidate_file,this.candidate_file.name);
     formData.append('drive_id',"98ded190-eaf2-4cf2-be36-30ea00ce189c")//Change
 
 
     return this.http.post<any>("https://wgj66rpik8.execute-api.ap-south-1.amazonaws.com/dev/import-candidates",formData,
         { 
-        headers: new HttpHeaders({ 'Content-Type':'multipart/form-data',
+        headers: new HttpHeaders({ 
     'Authorization':  localStorage.getItem("token")!})
    
         })

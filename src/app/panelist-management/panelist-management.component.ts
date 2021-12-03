@@ -7,14 +7,27 @@ import { listAllHiringDriveandIDService } from '../Services/listAllHiringDriveAn
 import { panelistManagementService } from '../Services/panelistManagement.service';
 import {FormGroup,FormControl, Validators} from '@angular/forms'
 import { ThrowStmt } from '@angular/compiler';
-
+import { staticFileData } from 'src/Interfaces/staticFileData.interface';
+import { IDropdownSettings } from "ng-multiselect-dropdown";
 @Component({
   selector: 'app-panelist-management',
   templateUrl: './panelist-management.component.html',
   styleUrls: ['./panelist-management.component.css']
 })
 export class PanelistManagementComponent implements OnInit {
+ dropDownList = [
+  { item_id: 1, item_text: 'Item1' },
+  { item_id: 2, item_text: 'Item2' },
+  { item_id: 3, item_text: 'Item3' },
+  { item_id: 4, item_text: 'Item4' },
+  { item_id: 5, item_text: 'Item5' }
+   ]
+  dropDownSettings:IDropdownSettings = {
+    idField: 'item_id',
+      textField: 'item_text',
+    enableCheckAll: false,
 
+  }
   hiringDriveNamesAndId!: listAllHiringDriveandID []
   eventDays!:getEventDays[];
   interviewPanelistData!:listInterviewPanelist[];
@@ -27,12 +40,24 @@ export class PanelistManagementComponent implements OnInit {
   submitFeedbackButtonDisabled: boolean = true;
 
   distributeCandidateForm!: FormGroup
+
   listCandidatesInPanelData!:Array<listCandidatesInPanel[]>
 
-  candidateFeedback!: FormGroup
+  candidateFeedback!: FormGroup;
+  addPanelistForm!:FormGroup;
+  addPanelistData!: staticFileData
 
   constructor(private listAllHiringDriveandID: listAllHiringDriveandIDService, private panelistManagementService: panelistManagementService) {
 
+    this.addPanelistForm = new FormGroup({
+      'interviewRound' : new FormControl({value: '', disabled: true},[Validators.required]),
+    
+    })
+    this.addPanelistData = {
+      'user_roles':[''],
+      'drive_events':[''],
+      'panel_title':['']
+    }
     this.distributeCandidateForm = new FormGroup ({
       'hours': new FormControl(null,[Validators.required]),
       'minutes': new FormControl(null,[Validators.required]),
@@ -41,6 +66,7 @@ export class PanelistManagementComponent implements OnInit {
       'breakInInterviews' : new FormControl(15, [Validators.required]),
       'lunchBreakDuration' : new FormControl(60 , [Validators.required])
     })
+  
     this.candidateFeedback = new FormGroup ({
       'feedback' : new FormControl(null,[Validators.required])
 
@@ -130,6 +156,7 @@ export class PanelistManagementComponent implements OnInit {
         else{
           this.eventDays = data.data;
           this.currentEvent = this.eventDays[0].name;/*Change*/
+          this.addPanelistForm.get('interviewRound')?.setValue(this.currentEvent)
           this.currentDate = this.eventDays[0].date;/*Change*/
           this.flag = true;
           
@@ -285,6 +312,7 @@ export class PanelistManagementComponent implements OnInit {
       const currEvent = eventanddate[0];
       const currDate = eventanddate[1];
       this.currentEvent = currEvent
+      this.addPanelistForm.get('interviewRound')?.setValue(this.currentEvent)
       this.currentDate = currDate
 
         this.panelistManagementService.listInterviewPanelist(this.currentEvent /*Change*/).subscribe(
@@ -340,6 +368,38 @@ export class PanelistManagementComponent implements OnInit {
       this.ngOnInit();
   }
 
+    getStaticData() {
+      this.panelistManagementService.getStaticData().subscribe(
+        data => {
+          if(data.success == false){
+
+          }
+          else{
+            console.log(data.data);
+            this.addPanelistData = data.data
+            
+          }
+
+        }
+      )
+      this.panelistManagementService.fetchPanelistForAddPanelist(this.currentEvent).subscribe
+        (      data => {
+          if(data.success == false){
+
+          }
+          else{
+            console.log(data.data);
+            this.addPanelistData = data.data
+            
+          }
+       
+      }
+)
+
+    
+   
+
+  }
   }
 
 

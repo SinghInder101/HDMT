@@ -10,7 +10,7 @@
           <div class="col-md-4">
               <label class="col-form-label">Hiring Drive Name</label>
               <input class="form-control " formControlName="hiringDriveName" >
-              <small class="text-danger" *ngIf="!hiringDriveDetails.get('hiringDriveName')?.valid && hiringDriveDetails.get('hiringDriveName')?.touched">Please enter the hiring drive name</small>
+              <small class="text-danger" *ngIf="hiringDriveDetails.get('hiringDriveName')?.invalid && (hiringDriveDetails.get('hiringDriveName')?.touched || hiringDriveDetails.get('hiringDriveName')?.dirty) ">Please enter the hiring drive name</small>
             
           </div>
           </div>
@@ -18,7 +18,7 @@
           <div class="col-md-4">
             <label class="col-form-label">Description</label>
             <textarea class="form-control" formControlName="hiringDriveDescription" ></textarea>
-            <small class="text-danger" *ngIf="!hiringDriveDetails.get('hiringDriveDescription')?.valid && hiringDriveDetails.get('hiringDriveDescription')?.touched">Please enter the hiring drive name</small>
+            <small class="text-danger" *ngIf="hiringDriveDetails.get('hiringDriveDescription')?.invalid && (hiringDriveDetails.get('hiringDriveDescription')?.touched || hiringDriveDetails.get('hiringDriveDescription')?.dirty)">Please enter the hiring drive name</small>
             <!-- <small>Please Enter correct password</small> -->
         </div>
         <div class="form-group row mb-4">
@@ -44,18 +44,18 @@
           <div class="col-md-4">
             <label class="col-form-label">Enter Name:</label>
             <input class="form-control " formControlName="name">
-            <small class="text-danger" *ngIf="!contactDetails.get('name')?.valid && !contactDetails.get('name')?.touched">Please enter the contact person name</small>
+            <small class="text-danger" *ngIf="contactDetails.get('name')?.invalid && (contactDetails.get('name')?.touched || contactDetails.get('name')?.dirty )">Please enter the contact person name</small>
           </div>
           <div class="col-md-4">
             <label class="col-form-label">Phone Number:</label>
             <input class="form-control "formControlName="phone_number">
-            <small class="text-danger" *ngIf="!contactDetails.get('phone_number')?.valid && !contactDetails.get('phone_number')?.touched">Please enter the phone number in correct format</small>
+            <small class="text-danger" *ngIf="contactDetails.get('phone_number')?.invalid && (contactDetails.get('phone_number')?.touched || contactDetails.get('phone_number')?.dirty)">Please enter the phone number in correct format</small>
           </div>
 
           <div class="col-md-4">
             <label class="col-form-label">Enter Email:</label>
             <input class="form-control " formControlName="email">
-            <small class="text-danger" *ngIf="!contactDetails.get('email')?.valid && !contactDetails.get('email')?.touched">Please enter the email properly</small>
+            <small class="text-danger" *ngIf="contactDetails.get('email')?.invalid && (contactDetails.get('email')?.touched || contactDetails.get('email')?.dirty)">Please enter the email properly</small>
           </div>
 
         </div>
@@ -78,23 +78,23 @@
         <div class="col-md-4" >
           <label class="col-form-label">Enter Event Name:</label>
           <input class="form-control " formControlName= "name">
-          <small  class="text-danger" *ngIf="!dateData.get('name')?.valid && !dateData.get('name')?.touched">Please enter an event name</small>
+          <small  class="text-danger" *ngIf="dateData.get('name')?.invalid &&  (dateData.get('name')?.touched || dateData.get('name')?.dirty)">Please enter an event name</small>
         </div>
         <div class="col-md-2">
           <label class="col-form-label">Select day</label>
           <input class="form-control "  value="DAY 1"   formControlName= "day">
-          <small  class="text-danger" *ngIf="!dateData.get('day')?.valid && !dateData.get('day')?.touched">Please enter the Day correctly</small>
+          <small  class="text-danger" *ngIf="dateData.get('day')?.invalid && (dateData.get('day')?.touched || dateData.get('day')?.dirty )">Please enter the Day correctly</small>
         </div>
 
         <div class="col-md-3">
           <label class="col-form-label">Select DATE:</label>
           <input class="form-control " TYPE="date"  formControlName= "date">
-          <small  class="text-danger" *ngIf="!dateData.get('date')?.valid && !dateData.get('date')?.touched">Please enter an Date for Hiring Drive</small>
+          <small  class="text-danger" *ngIf="dateData.get('date')?.invalid && (dateData.get('date')?.touched || dateData.get('date')?.dirty)">Please enter an Date for Hiring Drive</small>
         </div>
         <div class="col-md-2">
           <label class="col-form-label">Enter Start Time</label>
           <input class="form-control " TYPE="time"  formControlName= "time"> 
-          <small class="text-danger" *ngIf="!dateData.get('time')?.valid && !dateData.get('time')?.touched">Please enter a starting time for Hiring Drive</small>
+          <small class="text-danger" *ngIf="dateData.get('time')?.invalid && (dateData.get('time')?.touched || dateData.get('time')?.dirty )">Please enter a starting time for Hiring Drive</small>
         </div>
         
       </div>

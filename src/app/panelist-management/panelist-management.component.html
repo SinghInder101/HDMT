@@ -13,8 +13,8 @@
         <div class="col-sm-5 mt-5 d-flex justify-content-center">
           <b>Select Drive </b>
           <select class="form-select form-select-lg  " (change) = "abc($event)" aria-label=".form-select-lg example">
-            <option>Select the University</option>
-            <option [value]="hiringDriveNameandId.drive_id+'#'+ hiringDriveNameandId.drive_title" *ngFor="let hiringDriveNameandId of hiringDriveNamesAndId ">{{hiringDriveNameandId.drive_title}}</option>
+            <option disabled>Select the University</option>
+            <option [selected]="drive_name == hiringDriveNameandId.drive_title ? true : false"[value]="hiringDriveNameandId.drive_id+'#'+ hiringDriveNameandId.drive_title" *ngFor="let hiringDriveNameandId of hiringDriveNamesAndId ">{{hiringDriveNameandId.drive_title}}</option>
          
           </select>
          
@@ -32,8 +32,53 @@
           </select>
     </div>
     <div class="col-sm-2 pt-3">
-        <button class="btn btn-danger mt-1 mx-1"  data-bs-toggle="modal" data-bs-target="#exampleModal" >Distribute Candidate</button>
-        <button class="btn btn-danger  mt-1 mx-1"  >Add Panelist</button>
+        <button class="btn btn-danger mt-1 mx-1"  data-bs-toggle="modal" data-bs-target="#exampleModal"  >Distribute Candidate</button>
+        <button class="btn btn-danger  mt-1 mx-1"  data-bs-toggle="modal" data-bs-target="#addPanelist" (click) ="getStaticData()">Add Panelist</button>
+        <div class="modal fade" id="addPanelist" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form [formGroup] = "addPanelistForm" >
+              <div class="modal-body">
+                
+               
+
+                  <label>Current Selected Event:</label>
+                  <input class="form-control" formControlName="interviewRound" >
+                  <label>Panel Title:</label>
+                  <select class="form-select">
+                    <option [value] = "panel" *ngFor= " let panel of addPanelistData.panel_title">{{panel}}</option>
+
+                  </select>
+                  <label>Panel Description:</label>
+                  <textarea class="form-control"></textarea>
+
+                   <ng-multiselect-dropdown
+                  [settings] = 'dropDownSettings'
+                  [data] ='dropDownList'></ng-multiselect-dropdown> 
+
+                  <!-- <select class='form-select'>
+                    <option></option>
+                  </select>
+
+                  <label>Panel Description:</label>
+                  <textarea class="form-control" id="exampleFormControlTextarea1" type="text" formControlName='panelTitle' rows="3"></textarea> -->
+                 
+               
+                    
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary"   data-bs-dismiss="modal" >Save changes</button>
+              </div>
+            </form>
+            
+            </div>
+          </div>
+        </div>
         <form [formGroup] = "distributeCandidateForm">
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -47,7 +92,7 @@
                         <div class="input-group-prepend">
                             <label>Select Time: Hours & Minutes:</label>
                         </div>
-                        <select formControlName='hours' class="form-select" aria-label="Default select example">
+                        <select  formControlName='hours' class="form-select" aria-label="Default select example">
                            
                             <option value="01">01</option>
                             <option value="02">02</option>
@@ -136,7 +181,7 @@
                       </div>
 
                     <label>Interviews Per Panel</label>
-                    <input formControlName="panelist" type="number" min="1" max = "10" class="form-control">
+                    <input placeholder="select hours" formControlName="panelist" type="number" min="1" max = "10" class="form-control">
 
                     <label>Break Time between Interviews in Minutes</label>
                     <input formControlName="breakInInterviews" type="number" min="1" max = "30" class="form-control">

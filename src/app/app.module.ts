@@ -18,6 +18,7 @@ import { ManageCandidateComponent } from './manage-candidate/manage-candidate.co
 import { ManagePanelistComponent } from './manage-panelist/manage-panelist.component';
 import { PanelistManagementComponent } from './panelist-management/panelist-management.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     
   ],
   imports: [
+    NgMultiSelectDropDownModule.forRoot(),
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
