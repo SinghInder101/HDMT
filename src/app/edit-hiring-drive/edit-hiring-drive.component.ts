@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 import createHiringDrive from 'src/Interfaces/createHiringDrive';
 import { hiringDriveDataInterface } from 'src/Interfaces/hiringDriveDataInterface';
+import { listAdminsAndUsers } from 'src/Interfaces/listAdminsAndUsers.interface';
 import { createHiringDriveService
  } from '../Services/createHiringDrive.service';
 import { editHiringDriveService } from '../Services/editHiringDrive.service';
@@ -24,6 +25,15 @@ export class EditHiringDriveComponent implements OnInit {
   day:number
   createHiringDriveFormData!:createHiringDrive;
   editHiringDriveFormData!:hiringDriveDataInterface
+  admins:Array<string> = []
+  users!:listAdminsAndUsers[]
+  eventNames: Array<string> = [ "Pre Placement Talk",
+  "Interview Round 1",
+  "Interview Round 2",
+  "Interview Round 3",
+  "Interview Round 4",
+  "Interview Round 5"
+]
 
 
   constructor( private createHiringDriveService:createHiringDriveService, private editHiringDriveService:editHiringDriveService, private router: Router) { 
@@ -33,6 +43,13 @@ this.hiringDriveDates = new FormGroup({})
 this.contactPerson = new FormGroup({});
 this.hiringDriveDetails = new FormGroup({});
 this.day = 1;
+
+this.users = [{
+  name: '',
+  email:'',
+  phone_number:'',
+  role:''
+}]
 
 
 this.createHiringDriveFormData = {
@@ -78,6 +95,16 @@ type: "string"
  }
 
   ngOnInit(): void {
+    this.editHiringDriveService.listAllUsers().subscribe(
+      data => {
+        if(data.success == false){
+
+        }
+        else {
+          this.users = data.data;
+        }
+      }
+    )
 
    
 
@@ -104,6 +131,7 @@ type: "string"
         }
         else{
           this.editHiringDriveFormData = data.data;
+          this.admins = data.data.drive_admins
           
           //Fill in the Inputs with the requisite data received.
 
@@ -258,5 +286,23 @@ type: "string"
    
 
     
+  }
+  addAdmin(event:Event){
+
+    var admin = (event.target as HTMLInputElement).value
+    console.log(admin)
+
+
+    if(this.admins.indexOf(admin) == -1 && admin != 'Select'){
+      this.admins.push(admin);
+    }
+
+  }
+  removeAdmin(event:Event){
+    
+    this.admins = this.admins.filter( (admin) => {
+
+      return admin != (event.target as HTMLInputElement).value
+    })
   }
 }

@@ -24,6 +24,12 @@ export class CreateHiringDriveComponent implements OnInit {
   createHiringDriveFormData!:createHiringDrive;
   users!:listAdminsAndUsers[]
   admins!:Array<string>
+  eventNames: Array<string> = [ "Pre Placement Talk",
+  "Interview Round 1",
+  "Interview Round 2",
+  "Interview Round 3",
+  "Interview Round 4",
+  "Interview Round 5"]
 
   constructor( private createHiringDriveService:createHiringDriveService,private router: Router ) { 
  this.addData =[0];

@@ -23,14 +23,25 @@
         </div>
         <div class="form-group row mb-4">
 
-          <div class="col-md-8 mt-4">
-            <p>Select Drive Admin:</p>
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-  <label class="form-check-label " for="flexCheckDefault" > &nbsp; Arsh Arafaat &nbsp;</label>
-  <input class="form-check-input" type="checkbox" value="" [checked] = "isChecked" id="flexCheckDefault">
-  <label class="form-check-label " for="flexCheckDefault"> &nbsp; Awanti Singh &nbsp; </label>
-  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-  <label class="form-check-label " for="flexCheckDefault"> &nbsp; Virendra Sharma &nbsp;</label>
+          <div class="col-md-4 mt-4">
+            <p><b>Select Drive Admin:</b></p>
+            <select class="form-select" (change)="addAdmin($event)"id="gender1">
+              <option>Select</option>
+              <option *ngFor= "let user of users">{{user.name}}</option>
+            </select>
+        
+       </div>
+       <div class="col-md-4 mt-4">
+        
+        <p>&nbsp;</p>
+        <span *ngFor=" let admin of admins">
+        <input class="form-check-input" type="checkbox" (click)= "removeAdmin($event)"checked [value]="admin" id="flexCheckDefault">
+        <label class="form-check-label" for="flexCheckIndeterminate">
+          &nbsp;{{admin}} &nbsp;
+        </label>
+      </span>
+       
+        
        </div>
         </div>
 
@@ -77,7 +88,9 @@
         <div [formGroupName]="i" class="row">
         <div class="col-md-4" >
           <label class="col-form-label">Enter Event Name:</label>
-          <input class="form-control " formControlName= "name">
+          <select class="form-select" formControlName="name">
+            <option *ngFor="let eventName of eventNames" [ngValue]="eventName">{{eventName}}</option>
+          </select>
           <small  class="text-danger" *ngIf="dateData.get('name')?.invalid &&  (dateData.get('name')?.touched || dateData.get('name')?.dirty)">Please enter an event name</small>
         </div>
         <div class="col-md-2">

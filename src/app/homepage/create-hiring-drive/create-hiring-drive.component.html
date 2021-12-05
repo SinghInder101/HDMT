@@ -87,7 +87,10 @@
         <div [formGroupName]="i" class="row">
         <div class="col-md-4" >
           <label class="col-form-label">Enter Event Name:</label>
-          <input class="form-control " formControlName= "name">
+          
+          <select class="form-select" formControlName="name">
+            <option *ngFor="let eventName of eventNames">{{eventName}}</option>
+          </select>
           <small  class="text-danger" *ngIf="dateData.get('name')?.invalid &&  (dateData.get('name')?.touched || dateData.get('name')?.dirty)">Please enter an event name</small>
           
         </div>
