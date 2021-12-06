@@ -24,19 +24,19 @@
   <div class="row pt-5 d-flex justify-content-between">
 
     <div class="col-md-4">
-      <form class="form-inline">
+      <form class="form-inline" style="margin-top: 10px;">
         <div class="input-group">
-            <input type="text" class="form-control " id="search" (keyup) ="valueChange($event)" placeholder="Please Enter your search term here" aria-label="Recipient's username" aria-describedby="basic-addon2">
+            <input type="text" class="form-control " id="search" style="border-top-left-radius: 2rem; border-bottom-left-radius: 2rem;" (keyup)="valueChange($event)" placeholder="Please Enter your search term here" aria-label="Recipient's username" aria-describedby="basic-addon2">
           
-            <span class="input-group-btn"><button type="submit" style="background-color: rgb(232, 20, 16);" class="btn btn-danger search-btn" data-target="#search-form" name="q"><i class="fa fa-search"><!--FONT AWESOME font @ "http://fortawesome.github.io/Font-Awesome/" --></i>
+            <span class="input-group-btn "><button type="submit" style="background-color: rgb(232, 20, 16);" class="btn btn-danger search-btn" data-target="#search-form" name="q"><i class="fa fa-search"><!--FONT AWESOME font @ "http://fortawesome.github.io/Font-Awesome/" --></i>
             </button></span>
           </div>
         </form>
     </div>
     <div class = "col-md-6 d-flex justify-content-center">
 
-        <input type="file"  class="form-control-file" (change) = "selectedFile($event)"> 
-        <button class="btn btn-danger" (click) = "uploadFile()" style="background-color: rgb(232, 20, 16); border-radius: 2rem;">Upload</button>  
+        <input type="file"  class="form-control-file" (change) = "selectedFile($event)" > 
+        <button class="btn btn-danger" (click) = "uploadFile()" style="background-color: rgb(232, 20, 16); border-radius: 2rem;">Upload File</button>  
 
     </div>
 

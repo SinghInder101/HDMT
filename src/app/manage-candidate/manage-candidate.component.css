@@ -213,3 +213,12 @@ input:focus{
   background-color: rgb(243, 242, 242);
  box-shadow:  none;
 }
+
+ 
+  .search-btn {
+    border-radius: 0px 30px 30px 0px;
+    cursor:pointer;
+  }
+  select{
+    border-radius: 2rem;
+  }
