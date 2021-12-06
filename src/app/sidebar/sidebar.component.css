@@ -128,3 +128,7 @@
       margin-right: 0;
   }
 }
+.active{
+  color: #fff;
+  background: rgba(255,255,255,0.2);
+}

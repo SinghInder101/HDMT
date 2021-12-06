@@ -283,7 +283,7 @@ export class PanelistManagementComponent implements OnInit {
 
     const body = {
 
-      drive_id : "98ded190-eaf2-4cf2-be36-30ea00ce189c",
+      drive_id : localStorage.getItem('drive_id'),
       interview_round:this.currentEvent,
       email: this.candidateSelectionStatus[0],
       status: this.candidateSelectionStatus[1],

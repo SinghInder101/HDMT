@@ -2,12 +2,13 @@
   <div id="sidebar-wrapper">
       <ul class="sidebar-nav">
           <li class="sidebar-brand">
-              <a disabled>
-                  Hiring Drive Manager
+              <a disabled style="color: white;">
+                <b>{{currentDrive}}</b>
+                  
               </a>
           </li>
-          <li>
-              <a  routerLink="/home" routerLinkActive='active' [routerLinkActiveOptions] = "{exact:true}">Hiring Drive List</a>
+          <li routerLink="/home" routerLinkActive='active' [routerLinkActiveOptions] = "{exact:true}">
+              <a  >Hiring Drive List</a>
           </li>
           <li>
               <a routerLink="/hiring_drive_information" routerLinkActive='active' [routerLinkActiveOptions] = "{exact:true}">Hiring Drive Info</a>
