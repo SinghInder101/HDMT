@@ -17,6 +17,7 @@ export class ManageCandidateComponent implements OnInit {
   hiringDriveNamesAndId!: listAllHiringDriveandID []
   drive_name:string = localStorage.getItem('drive_name')!
   searchTerm: string = '';
+  loading!:boolean
 
   constructor(private listAllHiringDriveandID: listAllHiringDriveandIDService,private manageCandidateService: manageCandidateService) { 
     this.drive_name = localStorage.getItem('drive_name')!
@@ -45,6 +46,7 @@ export class ManageCandidateComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loading = true;
     this.drive_name = localStorage.getItem('drive_name')!;
     this.listAllHiringDriveandID.getAllHiringDriveandId().subscribe(
       data => {
@@ -84,6 +86,7 @@ export class ManageCandidateComponent implements OnInit {
         }
       }
     )
+    this.loading = false;
    
   }
 
@@ -95,6 +98,7 @@ export class ManageCandidateComponent implements OnInit {
   }
 
   uploadFile(){
+    
     this.manageCandidateService.candidate_file = this.file.item(0);
 
     this.manageCandidateService.uploadCandidates().subscribe(
@@ -104,6 +108,7 @@ export class ManageCandidateComponent implements OnInit {
         }
         else{
           console.log(data.message)
+          
           this.ngOnInit()
         }
       }

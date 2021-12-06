@@ -84,8 +84,7 @@ this.admins = []
     this.hiringDriveDetails = new FormGroup({
       'hiringDriveName' : new FormControl(null, Validators.required),
       'hiringDriveDescription':new FormControl(null, Validators.required),
-      'hiringDriveAdmin': new FormControl(null, Validators.required)
-
+     
     })
     this.hiringDriveDates = new FormGroup({
       'data' : new FormArray([])
@@ -125,7 +124,11 @@ this.admins = []
 
       'name' : new FormControl(null, Validators.required),
       'phone_number': new FormControl(null , Validators.required),
-      'email': new FormControl(null , Validators.required)
+      'email': new FormControl(null ,  [
+        Validators.required, 
+        Validators.pattern(
+        '[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}'
+      )])
 
     });
 

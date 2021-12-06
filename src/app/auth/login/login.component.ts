@@ -60,6 +60,7 @@ loginForm!: FormGroup;
 
      else{
        localStorage.setItem('token' , data.token);
+       localStorage.setItem('username',data.user.name)
        console.log(localStorage.getItem('token'));
        this.router.navigate(['/home'])
      }

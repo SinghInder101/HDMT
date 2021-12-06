@@ -131,6 +131,6 @@
           
       </div>
   </form>
-  <button class="btn btn-danger mt-3" [disabled]="hiringDriveDates.invalid && contactPerson.invalid && hiringDriveDetails.invalid "(click) = "saveHiringDrive()">Save Hiring Drive</button>
+  <button class="btn btn-danger mt-3" [disabled]="hiringDriveDates.invalid || contactPerson.invalid || hiringDriveDetails.invalid " (click) = "saveHiringDrive()">Save Hiring Drive</button>
   
 </div>

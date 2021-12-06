@@ -45,7 +45,7 @@
 
   <div class="row  mx-1 pt-5">
 
-    <table class="table table-sm table-hover">
+    <table class="table table-sm table-hover" *ngIf="!loading">
       <thead>
         <tr>
           <th scope="col" style="border-top-left-radius: 10px; padding-left: 10px" class="text-center">Candidate Name</th>
@@ -76,6 +76,10 @@
        
       </tbody>
     </table>
+    
+      <app-loader *ngIf="loading"></app-loader>
+
+   
   
   
   </div>

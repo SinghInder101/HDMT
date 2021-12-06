@@ -12,10 +12,11 @@
     <div class="col-md-10 ">
        <div class="login-form ">
           <form [formGroup]= "loginForm" (ngSubmit) ="onSubmit()" >
-            <h2>Login:</h2>
-             <div class="form-group ">
-                <label>Email Address</label>
+            <h2>Login to HDMT:</h2>
+             <div class="form-group mt-2">
+                <label  class="pb-2" >Email Address</label>
                 <input 
+                style="border-radius:2rem"
                 type="text" 
                 class="form-control m-auto" 
                 placeholder="Please enter your email here"
@@ -27,8 +28,8 @@
 
              
              <div class="form-group mt-3">
-                <label>Password</label>
-                <input 
+                <label class="pb-2">Password</label>
+                <input style="border-radius:2rem"
                 type="password" 
                 class="form-control m-auto" 
                 placeholder="Please enter your password here"
@@ -39,7 +40,7 @@
              *ngIf="loginForm.get('password')?.invalid  &&  (loginForm.get('password')?.touched || loginForm.get('password')?.dirty) ">
              Please enter the password in the correct format with minimum 8 characters, both upper case and lower case, special character and number</small>
              <br>
-             <button type="" class="btn btn-black m-2" [disabled] = "!loginForm.valid">Login</button>
+             <button style="border-radius:2rem" type="" class="btn btn-black m-2" [disabled] = "!loginForm.valid">Login</button>
              
           </form>
        </div>
