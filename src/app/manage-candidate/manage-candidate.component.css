@@ -176,3 +176,40 @@ a:hover{
   cursor: pointer;
   color: red;
 }
+table {
+
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+  border-radius: 10px;
+
+  font-size: 16px;
+
+}
+
+
+
+thead {
+
+  border-top-left-radius: 10px;
+
+  border-top-right-radius: 10px;
+
+  background-color: rgb(232, 20, 16);
+
+  color: white;
+  
+
+}
+
+
+
+td,
+
+th {
+  height:40px
+
+}
+input:focus{
+  background-color: rgb(243, 242, 242);
+ box-shadow:  none;
+}

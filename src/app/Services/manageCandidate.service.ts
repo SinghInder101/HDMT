@@ -53,5 +53,16 @@ uploadCandidates () {
         })
 
 }
+
+searchCandidates(searchTerm:string){
+
+    const params = new HttpParams()
+    .set('drive_id', localStorage.getItem('drive_id')!)
+    .set('key_word',searchTerm);
+
+    return this.http.get<any>("https://39ik2z1q63.execute-api.ap-south-1.amazonaws.com/dev/search_candidates", { headers: new HttpHeaders({ 'Content-Type': 'application/json',
+    'Authorization': "Bearer "+ localStorage.getItem("token")}) , params })
+
+}
     
 }

@@ -16,6 +16,7 @@ export class HomepageComponent implements OnInit {
   searchTerm!: string
   currentPage: number = 1;
   totalPages: number = 1;
+  loading!:boolean;
 
   constructor(private manageHiringDriveService:manageHiringDriveService,private listHiringDriveService:listHiringDriveService, private router: Router,private editHiringDriveService:editHiringDriveService) { 
 
@@ -59,6 +60,7 @@ export class HomepageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loading = true;
 
 
     this.listHiringDriveService.getHiringDrives(String(this.currentPage)).subscribe(
@@ -73,11 +75,13 @@ export class HomepageComponent implements OnInit {
           this.router.navigate(['/home'])
            this.drives = data.data;
            localStorage.setItem('drive_id',this.drives[0].drive_id);
+           localStorage.setItem('drive_name', this.drives[0].drive_title)
            this.totalPages = Number(data.total_pages);
 
+           this.loading = false;
       
 
-          console.log(this.drives);
+       
 
 
         }
@@ -95,9 +99,12 @@ export class HomepageComponent implements OnInit {
 
   }
 
-  manageHiringDrive(drive_id:string){
-    localStorage.setItem('drive_id',drive_id);
-    console.log(drive_id);
+  manageHiringDrive(drive_idAndTitle:string){
+
+    var drive = drive_idAndTitle.split("#")
+    localStorage.setItem('drive_id',drive[0]);
+    localStorage.setItem('drive_name', drive[1])
+    
     
 
     this.router.navigate(['/hiring_drive_information'])

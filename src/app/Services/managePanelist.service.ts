@@ -80,7 +80,8 @@ page_limit!:string
             drive_id : this.drive_id,
             email: email,
             phone_number:phone_number,
-            person_name: name
+            person_name: name,
+            drive_name: localStorage.getItem('drive_name')
 
 
         }

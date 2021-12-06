@@ -25,6 +25,7 @@ export class ManagePanelistComponent implements OnInit {
 
   emailAndPhoneForm!:FormGroup;
   hiringDriveNamesAndId!: listAllHiringDriveandID []
+  loading!:boolean;
 
 
 
@@ -76,6 +77,7 @@ export class ManagePanelistComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loading = true;
 
     this.listAllHiringDriveandID.getAllHiringDriveandId().subscribe(
       data => {
@@ -121,6 +123,7 @@ export class ManagePanelistComponent implements OnInit {
         }
         else{
          this.driveEvents = data.data
+         this.loading = false;
         }
       }
     )
@@ -198,6 +201,7 @@ export class ManagePanelistComponent implements OnInit {
       'drive_id': localStorage.getItem('drive_id'),
       'email' : b,
       'availability' :Array<Object>()
+      
 
     }
     
@@ -246,6 +250,8 @@ export class ManagePanelistComponent implements OnInit {
       data => {
         if(data.success == false){
           console.log(data);
+         window.alert('You cannot change this availability');
+         this.ngOnInit()
 
         }
         else{

@@ -1,7 +1,8 @@
 <app-navbar></app-navbar>
 <div id="wrapper">
 <app-sidebar></app-sidebar>
-<div class="container-fluid">
+
+<div class="container-fluid" >
     <div class="row pt-2 d-flex justify-content-between">
         <div class="col-md-4 mt-4 ">
             <div class="input-group mt-5">
@@ -29,7 +30,7 @@
 <div class="row mt-5">
     <div class="col-xs-12">
       <div class="table-responsive">
-    <table class="table table-sm table-hover">
+    <table class="table table-sm table-hover" *ngIf="!loading" >
         <thead>
           <tr>
             <th style="border-top-left-radius: 10px; padding-left: 10px"  scope="col">Hiring Drive Title</th>
@@ -64,13 +65,14 @@
                   
                     <a class="link" (click)="editHiringDrive(drive.drive_id)">Edit</a>
 
-                    <a class="link" (click) = "manageHiringDrive(drive.drive_id)"> Manage</a>
-                    <a class="link"> Copy</a>
+                    <a class="link" (click) = "manageHiringDrive(drive.drive_id + '#' + drive.drive_title)"> Manage</a>
+                  
                 </td>
           </tr>
          
         </tbody>
       </table>
+      <app-loader *ngIf="loading" ></app-loader>
     </div>
     </div>
 </div>
@@ -91,4 +93,6 @@
   
 </div>
 </div>
+
+
 </div>

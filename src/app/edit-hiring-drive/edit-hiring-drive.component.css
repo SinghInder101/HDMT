@@ -11,4 +11,26 @@
 .the-fieldset {
     border: 1px solid #e0e0e0;
     padding: 10px;
+    border-radius: 1rem;
+}
+
+input,textarea{
+    border-radius: 2rem;
+  resize: none;
+}
+input:focus{
+    background-color: rgb(243, 242, 242);
+
+
+box-shadow:  none;
+}
+textarea:focus{
+    background-color: rgb(243, 242, 242);
+    box-shadow: none;
+}
+select{
+    border-radius: 2rem;
+}
+button{
+    border-radius: 2rem;
 }

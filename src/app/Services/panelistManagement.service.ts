@@ -29,7 +29,6 @@ export class panelistManagementService {
    
    
 
- 
     listInterviewPanelist (Interview_round:string){
         this.drive_id = localStorage.getItem('drive_id')!;
 
@@ -71,7 +70,7 @@ export class panelistManagementService {
     listCandidatesInPanel(panel_title:string, interview_round:string){
         this.drive_id = localStorage.getItem('drive_id')!;
         const params = new HttpParams()
-        .set("drive_id","98ded190-eaf2-4cf2-be36-30ea00ce189c") //Change
+        .set("drive_id",this.drive_id) //Change
         .set("panel_title",panel_title)//Change
         .set("interview_round",interview_round)
       
@@ -94,7 +93,7 @@ export class panelistManagementService {
     fetchPanelistForAddPanelist(interviewRound:string){
         this.drive_id = localStorage.getItem('drive_id')!;
         const params = new HttpParams()
-        .set("drive_id","98ded190-eaf2-4cf2-be36-30ea00ce189c")
+        .set("drive_id",this.drive_id)
         .set("interview_round",interviewRound)
 
         return this.http.get<any>("https://vrikog3ugf.execute-api.ap-south-1.amazonaws.com/dev/list_available_panelist",
@@ -135,6 +134,22 @@ export class panelistManagementService {
         return this.http.post<any>("https://hakvaj3wya.execute-api.ap-south-1.amazonaws.com/dev/create_interview_panel",body, httpOptions)
 
 
+
+    }
+    setFeedback(body:any){
+
+        var headers_object = new HttpHeaders(
+            {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer "+ localStorage.getItem("token")
+            });
+        
+     
+
+        const httpOptions = {
+            headers: headers_object
+        }
+        return this.http.put<any>("https://hakvaj3wya.execute-api.ap-south-1.amazonaws.com/dev/edit_candidate_feedback",body, httpOptions)
 
     }
 }

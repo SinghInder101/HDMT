@@ -95,7 +95,10 @@
         </div>
         <div class="col-md-2">
           <label class="col-form-label">Select day</label>
-          <input class="form-control "  value="DAY 1"   formControlName= "day">
+        
+          <select class="form-select" formControlName="day">
+            <option *ngFor="let day of dayNames" [ngValue]="day">{{day}}</option>
+          </select>
           <small  class="text-danger" *ngIf="dateData.get('day')?.invalid && (dateData.get('day')?.touched || dateData.get('day')?.dirty )">Please enter the Day correctly</small>
         </div>
 

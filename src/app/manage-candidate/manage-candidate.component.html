@@ -24,17 +24,19 @@
   <div class="row pt-5 d-flex justify-content-between">
 
     <div class="col-md-4">
+      <form class="form-inline">
         <div class="input-group">
-            <input type="text" class="form-control " placeholder="Please Enter your search term here" aria-label="Recipient's username" aria-describedby="basic-addon2">
-            <div class="input-group-append">
-              <button class="btn btn-outline-secondary" type="button">Search</button>
-            </div>
+            <input type="text" class="form-control " id="search" (keyup) ="valueChange($event)" placeholder="Please Enter your search term here" aria-label="Recipient's username" aria-describedby="basic-addon2">
+          
+            <span class="input-group-btn"><button type="submit" style="background-color: rgb(232, 20, 16);" class="btn btn-danger search-btn" data-target="#search-form" name="q"><i class="fa fa-search"><!--FONT AWESOME font @ "http://fortawesome.github.io/Font-Awesome/" --></i>
+            </button></span>
           </div>
+        </form>
     </div>
     <div class = "col-md-6 d-flex justify-content-center">
 
         <input type="file"  class="form-control-file" (change) = "selectedFile($event)"> 
-        <button class="btn btn-danger" (click) = "uploadFile()">Upload</button>  
+        <button class="btn btn-danger" (click) = "uploadFile()" style="background-color: rgb(232, 20, 16); border-radius: 2rem;">Upload</button>  
 
     </div>
 
@@ -43,10 +45,10 @@
 
   <div class="row  mx-1 pt-5">
 
-    <table class="table table-striped table-bordered">
+    <table class="table table-sm table-hover">
       <thead>
         <tr>
-          <th scope="col" class="text-center">Candidate Name</th>
+          <th scope="col" style="border-top-left-radius: 10px; padding-left: 10px" class="text-center">Candidate Name</th>
           <th scope="col" class="text-center">Email</th>
           <th scope="col" class="text-center">Role Number</th>
           <th scope="col" class="text-center">Graduation Year</th>
@@ -55,21 +57,21 @@
           <th scope="col" class="text-center">Interview Date</th>
           <th scope="col" class="text-center">Interview Time</th>
           <th scope="col" class="text-center">Selection Status</th>
-          <th scope="col" class="text-center">Feedback</th>
+          <th scope="col" style="border-top-right-radius: 10px; " class="text-center">Feedback</th>
         </tr>
       </thead>
       <tbody >
         <tr *ngFor= "let candidateDetail of candidateDetails;">
-          <th scope="row">{{candidateDetail.candidate_name}}</th>
-          <td>{{candidateDetail.email}}</td>
-          <td>{{candidateDetail.roll_no}}</td>
-          <td>{{candidateDetail.graduation_year}}</td>
-          <td>{{candidateDetail.phone_number}}</td>
-          <td>{{candidateDetail.panel}}</td>
-          <td>{{candidateDetail.interview_date}}</td>
-          <td>{{candidateDetail.interview_time}}</td>
-          <td>{{candidateDetail.status}}</td>
-          <td>{{candidateDetail.feedback}}</td>
+          <th class="text-center" scope="row">{{candidateDetail.candidate_name}}</th>
+          <td class="text-center">{{candidateDetail.email}}</td>
+          <td class="text-center">{{candidateDetail.roll_no}}</td>
+          <td class="text-center">{{candidateDetail.graduation_year}}</td>
+          <td class="text-center">{{candidateDetail.phone_number}}</td>
+          <td class="text-center"> {{candidateDetail.panel}}</td>
+          <td class="text-center">{{candidateDetail.interview_date}}</td>
+          <td class="text-center">{{candidateDetail.interview_time}}</td>
+          <td class="text-center">{{candidateDetail.status}}</td>
+          <td class="text-center">{{candidateDetail.feedback}}</td>
         </tr>
        
       </tbody>

@@ -46,7 +46,7 @@ getTotalAndSelectedCandidates(){
     this.drive_id = localStorage.getItem("drive_id")!;
 
     const params = new HttpParams()
-    .set("drive_id", '98ded190-eaf2-4cf2-be36-30ea00ce189c')
+    .set("drive_id", this.drive_id)
 
     return this.http.get<any>(this.getTotalAndSelectedCandidatesAPI,{
         headers: new HttpHeaders({'Content-Type': 'application/json',

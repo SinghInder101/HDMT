@@ -18,6 +18,7 @@ export class HiringDriveInformationComponent implements OnInit {
   hiringDriveNamesAndId!: listAllHiringDriveandID []
 
   totalAndSelectedCandidates!:getTotalAndSelectedCandidates
+  drive_name:string = localStorage.getItem('drive_name')!;
  
   constructor(private listAllHiringDriveandIDService:listAllHiringDriveandIDService,private manageHiringDriveService:manageHiringDriveService, private editHiringDriveService: editHiringDriveService, private router: Router) { 
 
@@ -120,8 +121,13 @@ export class HiringDriveInformationComponent implements OnInit {
 
   }
   abc(event:Event){
-      console.log((event.target as HTMLInputElement).value)
-      localStorage.setItem("drive_id",(event.target as HTMLInputElement).value);
+    console.log((event.target as HTMLInputElement).value)
+    localStorage.setItem("drive_id",((event.target as HTMLInputElement).value).split("#")[0]);
+
+    localStorage.setItem("drive_name",((event.target as HTMLInputElement).value).split("#")[1]);
+    this.drive_name = localStorage.getItem('drive_name') || "";
+
+    
       this.ngOnInit();
   }
   editHiringDrive(drive_id:string){

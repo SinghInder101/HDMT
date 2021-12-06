@@ -45,6 +45,7 @@ export class PanelistManagementComponent implements OnInit {
     role:"",
     email:"",
   }]
+  loading!:boolean
 
   constructor(private listAllHiringDriveandID: listAllHiringDriveandIDService, private panelistManagementService: panelistManagementService) {
 
@@ -143,6 +144,7 @@ export class PanelistManagementComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    this.loading = true;
 
     this.listAllHiringDriveandID.getAllHiringDriveandId().subscribe(
       data => {
@@ -206,6 +208,7 @@ export class PanelistManagementComponent implements OnInit {
             }])
 
           }
+          this.loading = false;
           
           console.log(this.interviewPanelistData);
           
@@ -288,7 +291,56 @@ export class PanelistManagementComponent implements OnInit {
       feedback: this.candidateFeedback.get('feedback')?.value || ""
 
     }
-    console.log(body);
+    this.panelistManagementService.setFeedback(body).subscribe(
+      data => {
+        if(data.success == false) {
+
+        }
+        else{
+          this.panelistManagementService.listInterviewPanelist(this.currentEvent /*Change*/).subscribe(
+            data => {
+              
+              if(data.success == false){
+      
+              }
+              else {
+                this.interviewPanelistData = data.data;
+                for(let i = 0 ; i<data.data.length - 1 ; i++){
+      
+                  this.listCandidatesInPanelData.push( [{
+                    candidate_name: "raja",
+                      email: "",
+                        phone_number: "",
+                        feedback: [
+                            "",
+                            ""
+                        ],
+                        interview_date: "",
+                        updated_at: "",
+                        updated_by: "",
+                        updated_on: "",
+                        interview_time: "",
+                        status: [
+                            "",
+                            ""
+                        ]
+            
+                  }])
+      
+                }
+                
+                console.log(this.interviewPanelistData);
+                
+      
+              }
+            }
+          )
+         
+
+        }
+      }
+    )
+
   }
     
       
@@ -299,7 +351,7 @@ export class PanelistManagementComponent implements OnInit {
       if((event.target as HTMLInputElement).value != ''){
     console.log((event.target as HTMLInputElement).value)
     const data = (event.target as HTMLInputElement).value
-   this.candidateSelectionStatus = data.split(" ");
+   this.candidateSelectionStatus = data.split("#");
    this.submitFeedbackButtonDisabled = false;
       }
       else{
