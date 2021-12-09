@@ -19,6 +19,8 @@ import { ManagePanelistComponent } from './manage-panelist/manage-panelist.compo
 import { PanelistManagementComponent } from './panelist-management/panelist-management.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 
 @NgModule({
@@ -47,6 +49,9 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     AppRoutingModule,
     HttpClientModule,
     NgbModule,
+    BrowserAnimationsModule,
+  
+   
   ],
   providers: [],
   bootstrap: [AppComponent]

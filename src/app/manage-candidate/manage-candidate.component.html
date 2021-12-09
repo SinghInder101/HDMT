@@ -35,9 +35,56 @@
     </div>
     <div class = "col-md-6 d-flex justify-content-center">
 
-        <input type="file"  class="form-control-file" (change) = "selectedFile($event)" > 
-        <button class="btn btn-danger" (click) = "uploadFile()" style="background-color: rgb(232, 20, 16); border-radius: 2rem;">Upload File</button>  
+        <input type="file"  class="form-control-file" (change) = "selectedFile($event)" style="height: 52px; padding: 0px; margin: 0px;" > 
+        <button class="btn btn-danger" (click) = "uploadFile()" style="background-color: rgb(232, 20, 16); border-radius: 2rem;  height: 50px; ">Upload File</button>  
+        <button class="btn btn-danger mx-1" data-bs-toggle="modal" data-bs-target="#exampleModal"  style="background-color: rgb(232, 20, 16); border-radius: 2rem; height: 50px;">Add Candidate</button>
 
+         <form [formGroup] ="addCandidate">
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Candidate</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+
+                <label>Candidate Name:</label>
+                <input type="email" placeholder="Enter Name Here" formControlName='name' class="form-control">
+                <p class="text text-danger" *ngIf="addCandidate.get('name')?.invalid && (addCandidate.get('name')?.touched || addCandidate.get('name')?.dirty)">Please enter name correctly</p>
+            
+                
+                <label>Roll Number:</label>
+                <input type="text" placeholder="Enter Roll Number Here" formControlName='roll_no' class="form-control">
+                <p class="text text-danger" *ngIf="addCandidate.get('roll_no')?.invalid && (addCandidate.get('roll_no')?.touched || addCandidate.get('roll_no')?.dirty)">Please enter roll number correctly</p>
+  
+                <label>Candidate Email:</label>
+                <input type="text" placeholder="Enter Email Here"  formControlName='email' class="form-control">
+                <p class="text text-danger" *ngIf="addCandidate.get('email')?.invalid && (addCandidate.get('email')?.touched || addCandidate.get('email')?.dirty)">Please enter Email correctly</p>
+  
+
+                <label>Candidate Phone No.</label>
+                <input type="text" placeholder="Enter Phone Number Here" formControlName='phone_no' class="form-control">
+                <p class="text text-danger" *ngIf="addCandidate.get('phone_no')?.invalid && (addCandidate.get('phone_no')?.touched || addCandidate.get('phone_no')?.dirty)">Please enter phone number correctly</p>
+  
+
+                <label>Graduation Year</label>
+                <input type="text" placeholder="Enter Graduation Year Here" formControlName='graduation_year' class="form-control">
+                <p class="text text-danger" *ngIf="addCandidate.get('graduation_year')?.invalid && (addCandidate.get('graduation_year')?.touched || addCandidate.get('graduation_year')?.dirty)">Please enter graduation year correctly</p>
+                
+                 
+                  
+                   
+                   
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" >Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
 
 

@@ -1,5 +1,6 @@
 import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { candidateDetails } from 'src/Interfaces/candidateDetails.interface';
 import { listAllHiringDriveandID } from 'src/Interfaces/listAllHiringDriveAndID.interface';
 import { listAllHiringDriveandIDService } from '../Services/listAllHiringDriveAndID.service';
@@ -17,7 +18,16 @@ export class ManageCandidateComponent implements OnInit {
   hiringDriveNamesAndId!: listAllHiringDriveandID []
   drive_name:string = localStorage.getItem('drive_name')!
   searchTerm: string = '';
-  loading!:boolean
+  loading!:boolean;
+  addCandidate: FormGroup = new FormGroup( {
+    'name' : new FormControl(null,[Validators.required]),
+    'email' : new FormControl(null,[Validators.required ,Validators.pattern(
+      '[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}'
+    )]),
+    'roll_no': new FormControl(null,[Validators.required]),
+    'phone_no': new FormControl(null,[Validators.required]),
+    'graduation_year': new FormControl(null,[Validators.required])
+  })
 
   constructor(private listAllHiringDriveandID: listAllHiringDriveandIDService,private manageCandidateService: manageCandidateService) { 
     this.drive_name = localStorage.getItem('drive_name')!

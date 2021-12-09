@@ -147,19 +147,14 @@ export class ManagePanelistComponent implements OnInit {
   }
 
   selectPanelist(event: Event){
-
+    // [name1,name2,name3] //phone [phon1,phone2,phone3] //email [email1,email2,email3]
+    //
     console.log((event.target as HTMLInputElement).value)
-
     this.index = Number((event.target as HTMLInputElement).value);
     this.display = true;
 
     this.emailAndPhoneForm.get('email')?.setValue(this.listAdminsAndUsers[this.index].email);
     this.emailAndPhoneForm.get('phone_number')?.setValue(this.listAdminsAndUsers[this.index].phone_number)
-
-
-    
-
-
 
 
   }
