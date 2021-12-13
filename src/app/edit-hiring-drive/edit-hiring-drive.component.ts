@@ -1,6 +1,9 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormArray, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import createHiringDrive from 'src/Interfaces/createHiringDrive';
 import { hiringDriveDataInterface } from 'src/Interfaces/hiringDriveDataInterface';
 import { listAdminsAndUsers } from 'src/Interfaces/listAdminsAndUsers.interface';
@@ -45,8 +48,16 @@ dayNames: Array<String> = [  "Day 1",
 "Day 9",
 "Day 10"]
 
+//NG MULTI SELECT
+dropdownSettings!:IDropdownSettings
+disabled = false;
+myForm!:FormGroup;
 
-  constructor( private createHiringDriveService:createHiringDriveService, private editHiringDriveService:editHiringDriveService, private router: Router) { 
+
+  constructor(private fb: FormBuilder, private createHiringDriveService:createHiringDriveService, private editHiringDriveService:editHiringDriveService, private router: Router) { 
+
+
+
  this.addData =[0];
 
 this.hiringDriveDates = new FormGroup({})
@@ -105,6 +116,22 @@ type: "string"
  }
 
   ngOnInit(): void {
+
+    this.myForm = this.fb.group({
+      city: [this.users]
+    })
+
+    this.dropdownSettings = {
+      "singleSelection": false,
+      "idField": "email",
+      "textField": "name",
+      "selectAllText": "Select All",
+      "unSelectAllText": "Unselect All",
+      "enableCheckAll": true,
+      "itemsShowLimit": 3,
+      "allowSearchFilter": true
+    }
+
     this.editHiringDriveService.listAllUsers().subscribe(
       data => {
         if(data.success == false){
@@ -112,6 +139,8 @@ type: "string"
         }
         else {
           this.users = data.data;
+          console.log(this.users)
+         
         }
       }
     )
@@ -142,6 +171,8 @@ type: "string"
         else{
           this.editHiringDriveFormData = data.data;
           this.admins = data.data.drive_admins
+ 
+          this.myForm.get('city')?.setValue(this.admins)
           
           //Fill in the Inputs with the requisite data received.
 
@@ -264,7 +295,17 @@ type: "string"
    this.createHiringDriveFormData.contact_person = (<FormArray>this.contactPerson.get('data')).value;
    this.createHiringDriveFormData.events = (<FormArray>this.hiringDriveDates.get('data')).value;
    this.createHiringDriveFormData.description = this.hiringDriveDetails.get('hiringDriveDescription')?.value
-   this.createHiringDriveFormData.drive_admins = ["Inder","Vinny"];
+  
+
+   var addedAdmins = this.myForm.get('city')?.value
+  
+  
+   var addAdminsFin =[]
+   for(var i = 0 ; i<addedAdmins.length ;i++){
+     addAdminsFin.push(addedAdmins[i].name);
+
+   }
+   this.createHiringDriveFormData.drive_admins = addAdminsFin;
 
    console.log(this.createHiringDriveFormData)
 

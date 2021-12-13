@@ -29,6 +29,10 @@
               <option>Select</option>
               <option *ngFor= "let user of users">{{user.name}}</option>
             </select>
+
+            <form [formGroup] = 'myForm'>
+              <ng-multiselect-dropdown [settings]= 'dropdownSettings' [data]='users' formControlName='city' name="users"  ></ng-multiselect-dropdown>
+             </form>
         
        </div>
        <div class="col-md-4 mt-4">
@@ -47,8 +51,9 @@
 
 
         <form [formGroup]="contactPerson">
+          <label class="col-form-label"><b>Contact Person</b></label>
         <fieldset class="the-fieldset mb-5">
-          <legend class="the-legend">Contact Person:</legend>
+      
           <div class="form-group row" formArrayName="data" *ngFor="let contactDetails of getContactControls(); let i = index">
             <div [formGroupName] = "i" class="row">
  
@@ -81,8 +86,9 @@
     </form>
       
       <form [formGroup] = "hiringDriveDates">
+        <label class="col-form-label"><b>Add Event:</b></label>
       <fieldset class="the-fieldset">
-        <legend class="the-legend">Hiring Drive Dates:</legend>
+       
         
       <div class="form-group row mt-3" formArrayName="data" *ngFor= "let dateData of getControls(); let i = index">
         <div [formGroupName]="i" class="row">

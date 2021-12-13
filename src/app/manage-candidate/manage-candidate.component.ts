@@ -19,6 +19,7 @@ export class ManageCandidateComponent implements OnInit {
   drive_name:string = localStorage.getItem('drive_name')!
   searchTerm: string = '';
   loading!:boolean;
+
   addCandidate: FormGroup = new FormGroup( {
     'name' : new FormControl(null,[Validators.required]),
     'email' : new FormControl(null,[Validators.required ,Validators.pattern(
@@ -162,6 +163,18 @@ valueChange(event:Event){
     )
 
 
+
+}
+
+addCandidateForm(){
+
+  var data = {
+    'drive_id': localStorage.getItem('drive_id'),
+    'email': this.addCandidate.get('email')?.value,
+    'person_name': this.addCandidate.get('name')?.value,
+    'person_number':this.addCandidate.get('phone_no')?.value,
+    'drive_name':this.drive_name
+  }
 
 }
 

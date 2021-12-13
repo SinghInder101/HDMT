@@ -9,7 +9,7 @@
          
           <div class="col-md-4">
               <label class="col-form-label"><b>Hiring Drive Name</b></label>
-              <input class="form-control " formControlName="hiringDriveName" > 
+              <input class="form-control" placeholder="Hiring Drive Name" formControlName="hiringDriveName" > 
               <small class="text-danger" *ngIf="hiringDriveDetails.get('hiringDriveName')?.invalid && (hiringDriveDetails.get('hiringDriveName')?.touched || hiringDriveDetails.get('hiringDriveName')?.dirty) ">Please enter the hiring drive name</small>
 
           </div>
@@ -17,18 +17,25 @@
           <div class="form-group row">
           <div class="col-md-4">
             <label class="col-form-label"><b>Description</b></label>
-            <textarea class="form-control" formControlName="hiringDriveDescription" ></textarea>
+            <textarea class="form-control" placeholder="Hiring Drive Description" formControlName="hiringDriveDescription" ></textarea>
             <small class="text-danger" *ngIf="hiringDriveDetails.get('hiringDriveDescription')?.invalid && (hiringDriveDetails.get('hiringDriveDescription')?.touched || hiringDriveDetails.get('hiringDriveDescription')?.dirty)">Please enter the hiring drive name</small>
         </div>
         <div class="form-group row mb-4">
 
           <div class="col-md-4 mt-4">
             <p><b>Select Drive Admin:</b></p>
-            <select class="form-select" (change)="addAdmin($event)"id="gender1" aria-placeholder="Please select admin">
+            <!-- <select class="form-select" (change)="addAdmin($event)"id="gender1" aria-placeholder="Please select admin">
+             
               <option>Select</option>
               <option *ngFor= "let user of users">{{user.name}}</option>
-            </select>
+          
+            </select> -->
            
+            
+
+            <form [formGroup] = 'myForm'>
+           <ng-multiselect-dropdown  [settings]= 'dropdownSettings' [data]='users' formControlName='city' name="users"  ></ng-multiselect-dropdown>
+          </form>
         
        </div>
        <div class="col-md-4 mt-4">
@@ -47,25 +54,26 @@
 
 
         <form [formGroup]="contactPerson">
+          <label class="col-form-label"><b>Contact Person:</b></label>
         <fieldset class="the-fieldset mb-5">
-          <legend class="the-legend">Contact Person:</legend>
+          
           <div class="form-group row" formArrayName="data" *ngFor="let contactDetails of getContactControls(); let i = index">
             <div [formGroupName] = "i" class="row">
  
           <div class="col-md-4">
             <label class="col-form-label">Enter Name:</label>
-            <input class="form-control " formControlName="name">
+            <input class="form-control " placeholder="Enter Name" formControlName="name">
             <small class="text-danger" *ngIf="contactDetails.get('name')?.invalid && (contactDetails.get('name')?.touched || contactDetails.get('name')?.dirty )">Please enter the contact person name</small>
           </div>
           <div class="col-md-4">
             <label class="col-form-label">Phone Number:</label>
-            <input class="form-control " formControlName="phone_number">
+            <input class="form-control " placeholder="Enter Phone Number" formControlName="phone_number">
             <small class="text-danger" *ngIf="contactDetails.get('phone_number')?.invalid && (contactDetails.get('phone_number')?.touched || contactDetails.get('phone_number')?.dirty)">Please enter the phone number in correct format</small>
           </div>
 
           <div class="col-md-4">
             <label class="col-form-label">Enter Email:</label>
-            <input class="form-control " formControlName="email">
+            <input class="form-control " placeholder="Enter Email" formControlName="email">
             <small class="text-danger" *ngIf="contactDetails.get('email')?.invalid && (contactDetails.get('email')?.touched || contactDetails.get('email')?.dirty)">Please enter the email properly</small>
           </div>
 
@@ -81,8 +89,9 @@
     </form>
       
       <form [formGroup] = "hiringDriveDates">
+        <label class="col-form-label"><b>Add Event:</b></label>
       <fieldset class="the-fieldset">
-        <legend class="the-legend">Hiring Drive Dates:</legend>
+       
         
       <div class="form-group row mt-3" formArrayName="data" *ngFor= "let dateData of getControls(); let i = index">
         <div [formGroupName]="i" class="row">
@@ -121,7 +130,7 @@
     
       <div class="row d-flex justify-content-end">
         <div class="col-md-4 d-flex justify-content-end mt-3">
-          <button class="btn btn-danger" (click) = "addDate()">Add Another Date</button>
+          <button class="btn btn-danger" (click) = "addDate()">Add Another Event</button>
           <div>&nbsp;</div>
     
         </div>
@@ -132,6 +141,6 @@
           
       </div>
   </form>
-  <button class="btn btn-danger mt-3" [disabled]="hiringDriveDates.invalid || contactPerson.invalid || hiringDriveDetails.invalid " (click) = "saveHiringDrive()">Save Hiring Drive</button>
+  <button class="btn btn-danger mt-3" (click) = "saveHiringDrive()">Save Hiring Drive</button>
   
 </div>

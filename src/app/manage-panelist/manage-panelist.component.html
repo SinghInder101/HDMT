@@ -5,8 +5,8 @@
     <div class="row pt-2 d-flex justify-content-between mb-5">
         <div class="col-md-12 mt-3"></div>
   
-          <div class="col-md-12 mt-4"></div>
-          <div class="col-md-6 mt-5">
+          <div class="col-md-12 mt-3"></div>
+          <div class="col-md-6 mt-5 d-flex">
                   <h3>{{drive_name}}</h3>
           </div>
           <div class="col-sm-5 mt-5 d-flex justify-content-center">
@@ -20,10 +20,10 @@
           
   </div>
 
-  <div class="row pt-5 d-flex justify-content-between">
+  <div class="row d-flex pt-2 justify-content-between">
 
     <div class="col-md-4">
-      <form class="form-inline" style="margin-top: 10px;">
+      <form class="form-inline" style="">
         <div class="input-group">
             <input type="text" class="form-control " id="search" placeholder="Please Enter your search term here" aria-label="Recipient's username" aria-describedby="basic-addon2">
           
@@ -32,10 +32,10 @@
           </div>
         </form>
     </div>
-    <div class = "col-md-6 d-flex justify-content-center">
+    <div class = "col-md-6 d-flex justify-content-end">
 
         
-        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" style="background-color: rgb(232, 20, 16); border-radius: 2rem;" (click) = "listAdminsAndUsersFunction()" >Select / Add Panelist</button>  
+        <button class="btn btn-danger" data-bs-toggle="modal" style="padding:0px;" data-bs-target="#exampleModal" style="background-color: rgb(232, 20, 16); border-radius: 2rem;" (click) = "listAdminsAndUsersFunction()" >Select / Add Panelist</button>  
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
@@ -49,10 +49,13 @@
                      
                      
                       <label>Select Panelist: </label>
-                      <select class="form-select " (change) = "selectPanelist($event)"  aria-label="Default select example">
+                      <!-- <select class="form-select " (change) = "selectPanelist($event)"  aria-label="Default select example">
                         <option selected>Select a Panelist</option>
                         <option *ngFor="let listAdminsAndUser of listAdminsAndUsers; let i = index" [value]="i">{{listAdminsAndUser.name}} </option>
-                      </select>
+                      </select> -->
+                      <form [formGroup] = 'myForm'>
+                        <ng-multiselect-dropdown [settings]= 'dropdownSettings' [data]='listAdminsAndUsers' formControlName='panelist' name="users"  ></ng-multiselect-dropdown>
+                       </form>
                       <form [formGroup] = "emailAndPhoneForm">
                       <span *ngIf="display">
                       <label> Email:</label>
@@ -109,8 +112,8 @@
             <td class="text-center" *ngFor="let driveEvent of driveEvents; index as i ">
               <span *ngIf="panelist.availability[i] !='Select'">{{panelist.availability[i]}}</span>
             
-              <select class="form-select"  [id]="driveEvent.date+panelist.email" *ngIf="panelist.availability[i] == 'Select'" (change)="abc($event)" aria-label=".form-select-lg example">
-                <option >Select Availability</option>
+              <select class="form-select" [disabled]="currentName != panelist.person_name ? true : false" [id]="driveEvent.date+panelist.email" *ngIf="panelist.availability[i] == 'Select'" (change)="abc($event)" aria-label=".form-select-lg example">
+                <option  >Select Availability</option>
                 <option [value]="1+''+j" [class] = "driveEvent.date">Yes</option>
                 <option [value]="2+''+j">No </option>
           

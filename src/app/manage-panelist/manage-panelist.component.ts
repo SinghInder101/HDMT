@@ -4,9 +4,10 @@ import { managePanelistService } from '../Services/managePanelist.service';
 import { Pipe, PipeTransform } from '@angular/core';
 import driveEvents from 'src/Interfaces/driveEvents.interface';
 import { listAdminsAndUsers } from 'src/Interfaces/listAdminsAndUsers.interface';
-import {FormGroup,FormControl, Validators} from '@angular/forms'
+import {FormGroup,FormControl, Validators, FormBuilder} from '@angular/forms'
 import { listAllHiringDriveandID } from 'src/Interfaces/listAllHiringDriveAndID.interface';
 import { listAllHiringDriveandIDService } from '../Services/listAllHiringDriveAndID.service';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
 
 @Component({
   selector: 'app-manage-panelist',
@@ -15,6 +16,11 @@ import { listAllHiringDriveandIDService } from '../Services/listAllHiringDriveAn
 })
 export class ManagePanelistComponent implements OnInit {
 
+  //NG MULTI-SELECT
+  dropdownSettings!:IDropdownSettings
+  disabled = false
+  myForm!:FormGroup;
+  //NG MULTI SELECT
 
   panelistData!: listPanelist[]
   driveEvents!: driveEvents[]
@@ -26,10 +32,11 @@ export class ManagePanelistComponent implements OnInit {
   emailAndPhoneForm!:FormGroup;
   hiringDriveNamesAndId!: listAllHiringDriveandID []
   loading!:boolean;
+  currentName : string = localStorage.getItem('username')!
 
 
 
-  constructor(private listAllHiringDriveandID: listAllHiringDriveandIDService,private managePanelistService:managePanelistService) {
+  constructor(private fb: FormBuilder,private listAllHiringDriveandID: listAllHiringDriveandIDService,private managePanelistService:managePanelistService) {
   
     this.hiringDriveNamesAndId = [
       {
@@ -77,6 +84,19 @@ export class ManagePanelistComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.myForm = this.fb.group({
+      panelist: []
+  });
+  this.dropdownSettings = {
+    "singleSelection": false,
+    "idField": "email",
+    "textField": "name",
+    "selectAllText": "Select All",
+    "unSelectAllText": "Unselect All",
+    "enableCheckAll": true,
+    "itemsShowLimit": 3,
+    "allowSearchFilter": true
+  }
     this.loading = true;
 
     this.listAllHiringDriveandID.getAllHiringDriveandId().subscribe(
@@ -111,6 +131,7 @@ export class ManagePanelistComponent implements OnInit {
         else {
           console.log(data);
           this.panelistData = data.data;
+          
           console.log(this.panelistData)
         }
       }
@@ -141,6 +162,7 @@ export class ManagePanelistComponent implements OnInit {
       }
       else{
         this.listAdminsAndUsers = data.data;
+        // this.myForm.get('panelist')?.setValue(this.listAdminsAndUsers)
       }
       
     })
@@ -161,26 +183,55 @@ export class ManagePanelistComponent implements OnInit {
 
   savePanelist(){
 
-    this.managePanelistService.savePanelist(
-      this.emailAndPhoneForm.get('email')?.value,
-      this.emailAndPhoneForm.get('phone_number')?.value,
-      this.listAdminsAndUsers[this.index].name
-    ).subscribe(
-      data => {
-        if(data.success == false){
-          console.log(data);
-          this.index = 0;
-          this.display = false;
+    var data = []
 
+    const addedPanelist = this.myForm.get('panelist')?.value
+    for(var i = 0; i<addedPanelist.length ; i++){
+
+      var currName = addedPanelist[i].name;
+
+      for(var j=0 ; j<this.listAdminsAndUsers.length; j++){
+
+        if(currName == this.listAdminsAndUsers[j].name){
+
+          var person:any= this.listAdminsAndUsers[j]
+          person["person_name"] = currName
+          data.push(person)
+         
         }
+      } 
+    }
+    console.log(data);
+    this.managePanelistService.savePanelist(data).subscribe(
+      data => {
+        if(data.success == false){}
         else{
-          console.log(data);
-          this.index = 0;
-          this.display = false;
+          console.log(data)
           this.ngOnInit();
         }
       }
     )
+
+    // this.managePanelistService.savePanelist(
+    //   this.emailAndPhoneForm.get('email')?.value,
+    //   this.emailAndPhoneForm.get('phone_number')?.value,
+    //   this.listAdminsAndUsers[this.index].name
+    // ).subscribe(
+    //   data => {
+    //     if(data.success == false){
+    //       console.log(data);
+    //       this.index = 0;
+    //       this.display = false;
+
+    //     }
+    //     else{
+    //       console.log(data);
+    //       this.index = 0;
+    //       this.display = false;
+    //       this.ngOnInit();
+    //     }
+    //   }
+    // )
 
   }
 

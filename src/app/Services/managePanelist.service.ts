@@ -68,7 +68,7 @@ page_limit!:string
 
     }
     
-    savePanelist(email:string, phone_number:string,name:string){
+    savePanelist(/*email:string, phone_number:string,name:string*/ data:any){
 
         var headers_object = new HttpHeaders(
             {
@@ -78,10 +78,9 @@ page_limit!:string
         
         const body = {
             drive_id : this.drive_id,
-            email: email,
-            phone_number:phone_number,
-            person_name: name,
-            drive_name: localStorage.getItem('drive_name')
+           
+            drive_name: localStorage.getItem('drive_name'),
+            panellist: [...data]
 
 
         }
