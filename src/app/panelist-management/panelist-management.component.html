@@ -31,9 +31,56 @@
          
           </select>
     </div>
-    <div class="col-sm-2 pt-3">
-        <button class="btn btn-danger mt-1 mx-1"  data-bs-toggle="modal" data-bs-target="#exampleModal"  >Distribute Candidate</button>
-        <button class="btn btn-danger  mt-1 mx-1"  data-bs-toggle="modal" data-bs-target="#addPanelist" (click) ="getStaticData()">Add Panelist</button>
+    <div class="col-sm-6 pt-3">
+        <button class="btn btn-danger mt-4 mx-1"  data-bs-toggle="modal" data-bs-target="#exampleModal"  >Distribute Candidate</button>
+        <button class="btn btn-danger mt-4 mx-1"  data-bs-toggle="modal" data-bs-target="#addPanelist" (click) ="getStaticData()">Add Interview panel</button>
+        <button class="btn btn-danger mt-4 mx-1" data-bs-toggle="modal" data-bs-target="#addCandidateToPanel" (click) = "getCandidates()">Add Candidate to Panel</button>
+        <form [formGroup]="addCandidate">
+
+        <div class="modal fade"   id="addCandidateToPanel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-xl"   >
+            <div class="modal-content" >
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Candidate To Panel</h5>
+                <button type="button" (click) ="closeAddCandidates()"class="btn-close" data-bs-dismiss="modal" aria-label="Close" click="clearData()"></button>
+              </div>
+              
+              <div class="modal-body" >
+                <div class="row" formArrayName='candidateData' *ngFor="let candidateDate of getCandidatesControls(); let i = index">
+                  <div class [formGroupName] = 'i' class="row">
+                  <div class="col-md-4">
+                    <label>Name:</label><input formControlName='name'  class="form-control"></div>
+                  <div class="col-md-4"> <label>Panel Title</label>
+                  <select class="form-select" formControlName='panelist'>
+                    <option [value] = 'interviewPanelist.panel_title' *ngFor=" let interviewPanelist of interviewPanelistData; let i = index">{{interviewPanelist.panel_title}}</option>
+                  </select></div>
+                  <div class="col-md-2">
+                    <label>Start Time</label>
+                    <input formControlName='startTime' class="form-control">
+                   <small class="text text-danger"*ngIf="candidateDate.get('startTime')?.invalid"> Time Format 9:00 AM</small>
+
+
+                  </div>
+                  <div class="col-md-2">
+                    <label>End Time</label>
+                    <input formControlName='endTime' class="form-control">
+                    <small class="text text-danger"*ngIf="candidateDate.get('endTime')?.invalid"> Time Format 9:00 AM</small>
+                  </div>
+                </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Close</button> 
+                  <!-- Calll a function that empties coordinator and panelist array -->
+                  <button type="button" class="btn btn-primary"   data-bs-dismiss="modal" (click)="saveAddCandidates()">Save changes</button>
+              </div>
+           
+            
+            </div>
+          </div>
+        </div>
+      </form>
+
         <div class="modal fade" id="addPanelist" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -95,6 +142,7 @@
             </div>
           </div>
         </div>
+
         <form [formGroup] = "distributeCandidateForm">
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">

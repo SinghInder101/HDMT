@@ -19,6 +19,8 @@ export class ManageCandidateComponent implements OnInit {
   drive_name:string = localStorage.getItem('drive_name')!
   searchTerm: string = '';
   loading!:boolean;
+  currentPage: number = 1;
+  totalPages: number = 1;
 
   addCandidate: FormGroup = new FormGroup( {
     'name' : new FormControl(null,[Validators.required]),
@@ -171,9 +173,34 @@ addCandidateForm(){
   var data = {
     'drive_id': localStorage.getItem('drive_id'),
     'email': this.addCandidate.get('email')?.value,
-    'person_name': this.addCandidate.get('name')?.value,
-    'person_number':this.addCandidate.get('phone_no')?.value,
-    'drive_name':this.drive_name
+    'candidate_name': this.addCandidate.get('name')?.value,
+    'phone_number':this.addCandidate.get('phone_no')?.value,
+    'drive_name':this.drive_name,
+    'graduation_year':this.addCandidate.get('graduation_year')?.value,
+    'roll_no':this.addCandidate.get('roll_no')?.value
+  }
+  this.manageCandidateService.addCandidate(data).subscribe(
+    data => {
+      if(data.success == false){
+
+      }
+      else{
+        console.log(data);
+        this.ngOnInit();
+      }
+    }
+  )
+
+}
+counter(flag: number){
+  if(flag == 1 && this.currentPage != this.totalPages){
+    this.currentPage++;
+    this.ngOnInit();
+
+  }
+  else if(flag == 0 && this.currentPage!=1){
+    this.currentPage--;
+    this.ngOnInit();
   }
 
 }

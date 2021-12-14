@@ -64,5 +64,25 @@ searchCandidates(searchTerm:string){
     'Authorization': "Bearer "+ localStorage.getItem("token")}) , params })
 
 }
+addCandidate( body:any){
+
+    var headers_object = new HttpHeaders(
+        {
+        'Content-Type': 'application/json',
+        'Authorization': localStorage.getItem("token")!
+        });
+    
+ 
+
+    const httpOptions = {
+        headers: headers_object
+    }
+
+    return this.http.post<any>("https://39ik2z1q63.execute-api.ap-south-1.amazonaws.com/dev/add_candidate",body, httpOptions);
+    
+
+
+
+}
     
 }

@@ -152,4 +152,33 @@ export class panelistManagementService {
         return this.http.put<any>("https://hakvaj3wya.execute-api.ap-south-1.amazonaws.com/dev/edit_candidate_feedback",body, httpOptions)
 
     }
+    getCandidates(){
+        const params = new HttpParams()
+        .set("drive_id", localStorage.getItem('drive_id')!);
+
+        return this.http.get<any>("https://hakvaj3wya.execute-api.ap-south-1.amazonaws.com/dev/list_selected_candidates",{
+            headers: new HttpHeaders({'Content-Type': 'application/json',
+            'Authorization': "Bearer "+ localStorage.getItem("token")}),
+            params
+        });
+
+    }
+    addCandidateToPanel(body:any){
+
+        var headers_object = new HttpHeaders(
+            {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer "+ localStorage.getItem("token")
+            });
+        
+     
+
+        const httpOptions = {
+            headers: headers_object
+        }
+
+        return this.http.put<any>("https://hakvaj3wya.execute-api.ap-south-1.amazonaws.com/dev/add_candidate_to_panel",body,httpOptions)
+
+
+    }
 }

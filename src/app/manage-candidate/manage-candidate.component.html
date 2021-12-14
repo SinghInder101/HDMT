@@ -130,6 +130,22 @@
   
   
   </div>
+  <div class="row d-flex justify-content-end">
+    <div class="col-xs-6 d-flex justify-content-end pagination">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              <li class="page-item" [attr.class] = "currentPage == 1 ? ' page-item disabled': 'page-item'"><a class="page-link" (click) = "counter(0)">Previous</a></li>
+             
+              <li class="page-item" [attr.class] = "currentPage == totalPages ? 'page-item disabled': 'page-item'"><a class="page-link" (click) = "counter(1)">Next</a></li>
+            </ul>
+          </nav>
+    </div>
+    
+    <!-- Button trigger modal -->
+
+  <!-- Modal -->
+  
+</div>
     
 </div>
 

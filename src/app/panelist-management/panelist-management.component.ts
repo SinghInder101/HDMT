@@ -5,12 +5,14 @@ import { listInterviewPanelist } from 'src/Interfaces/listInterviewPanelist.inte
 import { listCandidatesInPanel } from 'src/Interfaces/listCandidatesInPanel.interface';
 import { listAllHiringDriveandIDService } from '../Services/listAllHiringDriveAndID.service';
 import { panelistManagementService } from '../Services/panelistManagement.service';
-import {FormGroup,FormControl, Validators} from '@angular/forms'
+import {FormGroup,FormControl, Validators, FormArray} from '@angular/forms'
 import { ThrowStmt } from '@angular/compiler';
 import { staticFileData } from 'src/Interfaces/staticFileData.interface';
 import { IDropdownSettings } from "ng-multiselect-dropdown";
 import { addPanelistToPanel } from 'src/Interfaces/addPanelistToPanel.interface';
 import { listAdminsAndUsers } from 'src/Interfaces/listAdminsAndUsers.interface';
+import { getSelectedCandidates } from 'src/Interfaces/getSelectedCandidates.interface';
+
 @Component({
   selector: 'app-panelist-management',
   templateUrl: './panelist-management.component.html',
@@ -32,7 +34,13 @@ export class PanelistManagementComponent implements OnInit {
   distributeCandidateForm!: FormGroup
 
   listCandidatesInPanelData!:Array<listCandidatesInPanel[]>
-
+ addCandidate!:FormGroup // For add candidate in Panel
+ selectedCandidates:getSelectedCandidates[] = [
+   {
+  candidate_name: '',
+  email:''
+}
+ ] 
   candidateFeedback!: FormGroup;
   addPanelistForm!:FormGroup;
   addPanelistData!: staticFileData
@@ -48,6 +56,11 @@ export class PanelistManagementComponent implements OnInit {
   loading!:boolean
 
   constructor(private listAllHiringDriveandID: listAllHiringDriveandIDService, private panelistManagementService: panelistManagementService) {
+    this.addCandidate = new FormGroup ({
+      'candidateData' : new FormArray([]
+       
+      )
+    })
 
     this.getPanelistNames = [
       {
@@ -144,6 +157,7 @@ export class PanelistManagementComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    
     this.loading = true;
 
     this.listAllHiringDriveandID.getAllHiringDriveandId().subscribe(
@@ -153,6 +167,16 @@ export class PanelistManagementComponent implements OnInit {
         }
         else{
           this.hiringDriveNamesAndId = data.data
+        }
+      }
+    )
+    this.panelistManagementService.getCandidates().subscribe(
+      data => {
+        if(data.success == false){
+ 
+        }
+        else{
+         this.selectedCandidates = data.data
         }
       }
     )
@@ -586,6 +610,89 @@ export class PanelistManagementComponent implements OnInit {
     this.coordinatorToPanel = []
   }
 
+  getCandidates(){
+
+   //FIRST STEP FETCH CANDIDATES
+   // ADD THAT MANY FORM CONTROLS
+   console.log(<FormArray>this.addCandidate.get('candidateData'))
+   
+
+   for(var i = 0 ; i < this.selectedCandidates.length ; i++){
+
+   
+    const group = new FormGroup({
+      'name' : new FormControl({value: this.selectedCandidates[i].candidate_name,disabled: true},Validators.required),
+      'panelist': new FormControl(null,Validators.required),
+      'startTime': new FormControl(null, [Validators.required,Validators.pattern(/^(1[0-2]|0?[1-9]):[0-5][0-9] (AM|PM)$/i)]),
+      'endTime': new FormControl(null,[Validators.required,Validators.pattern(/^(1[0-2]|0?[1-9]):[0-5][0-9] (AM|PM)$/i)])
+
+    });
+  
+
+  (<FormArray>this.addCandidate.get('candidateData')).push(group)
+    
+   }
+   console.log(<FormArray>this.addCandidate.get('candidateData'))
+ 
+   
   }
+  getCandidatesControls(){
+
+    return(<FormArray>this.addCandidate.get('candidateData')).controls
+
+  }
+  closeAddCandidates(){
+    this.addCandidate = new FormGroup ({
+      'candidateData' : new FormArray([])
+    })
+  }
+  saveAddCandidates(){
+    // {
+    //   interview_round,
+    //   drive_id,
+    //   interview_date,
+    //   candidate_list : [
+    //     {email : '',
+    //     interview_time,
+    //     panel
+    //    }
+    //   ]
+    // }
+
+    // var interview_round  = this.currentEvent
+    // var date = this.currentDate
+    // var driveID = localStorage.getItem('drive_id')!;
+    var body= {
+      'interview_round': this.currentEvent,
+      'interview_date': this.currentDate,
+      'drive_id' : localStorage.getItem('drive_id'),
+      'candidate_list':Array<any>()
+    };
+
+    for(var i = 0 ; i < this.selectedCandidates.length ; i++){
+      var obj = {
+        'email':this.selectedCandidates[i].email,
+        'interview_time': <FormArray>this.addCandidate.get(['candidateData',i,'startTime'])?.value + "-"+ <FormArray>this.addCandidate.get(['candidateData',i,'endTime'])?.value,
+        'panel':<FormArray>this.addCandidate.get(['candidateData',i,'panelist'])?.value
+        
+    }
+    body.candidate_list.push(obj)
+
+  }
+  console.log(body);
+
+  this.panelistManagementService.addCandidateToPanel(body).subscribe(
+    data =>{
+      if(data.success == false){
+
+      }
+      else{
+        console.log(data);
+      }
+    }
+  )
+
+  }
+}
 
 
